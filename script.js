@@ -1,9 +1,3 @@
-// todo:
-// - iets bedenken op keys waarvan de elementen via ajax geladen worden..
-// - modifiers ala google toevoegen (i.e. g + h wordt go home, c + a wordt content action, c + / wordt content search)
-// - tonen welke actie uitgevoerd gaat worden
-// - timers toevoegen om met esc acties te annuleren (moet je wel heel snel zijn!)
-
 jQuery.each(keys, function() {
 
     if (this.link != undefined) {
