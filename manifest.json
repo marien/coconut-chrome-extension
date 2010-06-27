@@ -1,0 +1,25 @@
+{
+  "background_page": "background.html",
+  "browser_action": {
+    "default_icon": "icon19.png",
+	"default_title": "Terminal Chrome Extension"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://terminal.ogd.nl/*", "https://*.terminal.ogd.nl/*"],
+      "css": ["styles.css"],
+      "js": ["jquery-1.4.2.js", "jquery.hotkeys.js", "config.js", "script.js"]
+    }
+  ],
+  "description": "Chrome Extension voor de Terminal",
+  "icons": {
+     "16": "icon16.png",
+     "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "name": "Terminal Chrome Extension",
+  "permissions": [
+    "tabs", "https://terminal.ogd.nl/*", "https://*.terminal.ogd.nl/*"
+  ],
+  "version": "0.1"
+}
