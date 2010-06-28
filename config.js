@@ -34,4 +34,5 @@ var keys = [
 
 // actions
 { key: '?', action: 'help' },
+{ key: 'r', action: 'reload' },
 ];
