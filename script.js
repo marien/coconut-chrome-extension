@@ -48,6 +48,12 @@ jQuery.each(keys, function() {
                         return false;
                     });*/
                 break;
+			case 'reload':
+				jQuery(document).bind('keydown', this.key, function () {
+					location.reload(true);
+					return false;
+				});
+				break;
         }
     }
 });
