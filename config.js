@@ -30,7 +30,7 @@ var keys = [
 { key: 'c', focus: '#newMsgTextArea-1' },
 
 // click
-{ key: 'shift+c', click: '.chatConnections .bottomTab' },
+{ key: 'shift+c', click: '.chatContainer .bottomTab' },
 
 // actions
 { key: '?', action: 'help' },
