@@ -1,16 +1,5 @@
 var keys = [
-// menu links (t.o.n)
-{ key: 'h', link: 'a[title=home]' }, // g + h
-{ key: 'n', link: 'a[title=nieuws & info]' },
-{ key: 'f', link: 'a[title=forums]' },
-{ key: 'g', link: 'a[title=gateway]' },
-{ key: 'o', link: 'a[title=opleidingen]' },
-{ key: 'w', link: 'a[title=wiki]' },
-{ key: 'd', link: 'a[title=flaming dog]' },
-{ key: 'u', link: 'a[title=LAS Urenregistratie]' },
-{ key: 'z', link: 'a[title=Zarafa: E-mail & Agenda]' },
-{ key: 'l', link: 'a[title=Intranet III]' },
-// menu links (b.t.o.n)
+// menu links
 { key: 'h', link: '.topBar a[title=]:contains(terminal center)' },
 { key: 'n', link: '.topBar a[title=]:contains(nieuws & info)' },
 { key: 'f', link: '.topBar a[title=]:contains(interne forums)' },
