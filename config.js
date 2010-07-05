@@ -20,8 +20,8 @@ var keys = [
 
 // click
 { key: 'shift+c', click: '.chatContainer .bottomTab' },
+{ key: 'r', click: '.reloadButton' },
 
 // actions
 { key: '?', action: 'help' },
-{ key: 'r', action: 'reload' },
 ];
