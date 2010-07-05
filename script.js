@@ -30,7 +30,9 @@ jQuery.each(keys, function() {
 	if (this.click != undefined) {
         var selector = this.click;
         jQuery(document).bind('keydown', this.key, function () {
-                jQuery(selector).first().click();
+                jQuery(selector).each( function() {
+					jQuery(this).trigger('click');
+				});
                 return false;
             }
         );
@@ -48,12 +50,6 @@ jQuery.each(keys, function() {
                         return false;
                     });*/
                 break;
-			case 'reload':
-				jQuery(document).bind('keydown', this.key, function () {
-					location.reload(true);
-					return false;
-				});
-				break;
         }
     }
 });
