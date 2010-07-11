@@ -30,8 +30,12 @@ jQuery.each(keys, function() {
 	if (this.click != undefined) {
         var selector = this.click;
         jQuery(document).bind('keydown', this.key, function () {
+				var evt = document.createEvent('MouseEvents');
+				evt.initMouseEvent('click', true, true,
+					document.defaultView, 1, 0, 0, 0, 0, false,
+					false, false, false, 0, null);
                 jQuery(selector).each( function() {
-					jQuery(this).trigger('click');
+					this.dispatchEvent(evt);
 				});
                 return false;
             }
