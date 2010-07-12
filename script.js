@@ -77,7 +77,7 @@ jQuery.each(keys, function() {
                 {
                     new_selected = jQuery(selector).get(0);
                 }
-                jQuery(new_selected).addClass('selected').focus();
+                jQuery(new_selected).addClass('selected').attr('tabindex', '-1').focus().removeAttr('tabindex', '');
                 return false;
             }
         );
@@ -90,7 +90,7 @@ jQuery.each(keys, function() {
                 jQuery(selected).removeClass('selected');
                 var index = jQuery(selector).index(selected);
                 var new_selected = jQuery(selector).get(index-1);
-                jQuery(new_selected).addClass('selected').focus();
+                jQuery(new_selected).addClass('selected').attr('tabindex', '-1').focus().removeAttr('tabindex', '');
                 return false;
             }
         );
