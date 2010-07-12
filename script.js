@@ -65,4 +65,34 @@ jQuery.each(keys, function() {
                 break;
         }
     }
+
+    if (this.down != undefined) {
+        var selector = this.down;
+        jQuery(document).bind('keydown', this.key, function () {
+                var selected = jQuery(selector).filter('.selected').first();
+                jQuery(selected).removeClass('selected');
+                var index = jQuery(selector).index(selected);
+                var new_selected = jQuery(selector).get(index+1);
+                if (new_selected == undefined)
+                {
+                    new_selected = jQuery(selector).get(0);
+                }
+                jQuery(new_selected).addClass('selected').focus();
+                return false;
+            }
+        );
+    }
+
+    if (this.up != undefined) {
+        var selector = this.up;
+        jQuery(document).bind('keydown', this.key, function () {
+                var selected = jQuery(selector).filter('.selected').first();
+                jQuery(selected).removeClass('selected');
+                var index = jQuery(selector).index(selected);
+                var new_selected = jQuery(selector).get(index-1);
+                jQuery(new_selected).addClass('selected').focus();
+                return false;
+            }
+        );
+    }
 });
