@@ -21,7 +21,7 @@ jQuery.each(keys, function() {
         );
     }
 
-	if (this.focus != undefined) {
+    if (this.focus != undefined) {
         var selector = this.focus;
         jQuery(document).bind('keydown', this.key, function () {
                 jQuery(selector).first().focus();
@@ -35,28 +35,28 @@ jQuery.each(keys, function() {
             }
         );
     }
-	
-	if (this.click != undefined) {
+
+    if (this.click != undefined) {
         var selector = this.click;
         jQuery(document).bind('keydown', this.key, function () {
-				var evt = document.createEvent('MouseEvents');
-				evt.initMouseEvent('click', true, true,
-					document.defaultView, 1, 0, 0, 0, 0, false,
-					false, false, false, 0, null);
+                var evt = document.createEvent('MouseEvents');
+                evt.initMouseEvent('click', true, true,
+                    document.defaultView, 1, 0, 0, 0, 0, false,
+                    false, false, false, 0, null);
                 jQuery(selector).each( function() {
-					this.dispatchEvent(evt);
-				});
+                    this.dispatchEvent(evt);
+                });
                 return false;
             }
         );
     }
-    
+
     if (this.action != undefined) {
         switch(this.action) {
             case 'help':
                 /*jQuery(document).bind('keydown', this.key, function () {
-					jQuery('<div id="chrome-terminel-keys"></div>')
-						.append(
+                    jQuery('<div id="chrome-terminel-keys"></div>')
+                        .append(
                         jQuery.each(keys, function() {
                             //
                         });
