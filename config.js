@@ -27,4 +27,9 @@ var keys = [
 
 // actions
 { key: '?', action: 'help' },
+
+// keyboard navigation forum
+{ key: 'j', down: '.branchTitle > a' },
+{ key: 'k', up: '.branchTitle > a' },
+{ key: 'v', click: '.branchTitle > a.selected' },
 ];
