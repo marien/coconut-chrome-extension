@@ -12,6 +12,15 @@ jQuery.each(keys, function() {
         );
     }
 
+    if (this.url != undefined) {
+        var url = this.url;
+        jQuery(document).bind('keydown', this.key, function () {
+                document.location = url;
+                return false;
+            }
+        );
+    }
+
 	if (this.focus != undefined) {
         var selector = this.focus;
         jQuery(document).bind('keydown', this.key, function () {

@@ -14,6 +14,9 @@ var keys = [
 // content links
 { key: 'c', link: '.commonContentActionButton > a' }, // c + a: content action
 
+// url
+{ key: 'shift+f', url: '/forum/categories/show_non_read' },
+
 // focus
 { key: '/', focus: '#global_search_criteria' },
 { key: 'c', focus: '#newMsgTextArea-1' },
