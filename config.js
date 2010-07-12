@@ -32,4 +32,8 @@ var keys = [
 { key: 'j', down: '.branchTitle > a' },
 { key: 'k', up: '.branchTitle > a' },
 { key: 'v', click: '.branchTitle > a.selected' },
+// keyboard navigation gateway
+{ key: 'j', down: '.messageBlock > div:first-child' },
+{ key: 'k', up: '.messageBlock > div:first-child' },
+{ key: 'v', click: '.messageBlock > div.selected + div.msgReactions:first a' },
 ];
