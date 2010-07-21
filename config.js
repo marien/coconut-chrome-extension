@@ -36,4 +36,8 @@ var keys = [
 { key: 'j', down: '.messageBlock > div:first-child' },
 { key: 'k', up: '.messageBlock > div:first-child' },
 { key: 'v', click: '.messageBlock > div.selected + div.msgReactions:first a' },
+// keyboard navigation blog
+{ key: 'j', down: '.commonContentPost .postTitle' },
+{ key: 'k', up: '.commonContentPost .postTitle' },
+{ key: 'v', click: '.commonContentPost .postTitle a' },
 ];
