@@ -26,7 +26,7 @@ var keys = [
 { key: 'r', click: '.reloadButton' },
 
 // actions
-{ key: '?', action: 'help' },
+{ key: 'shift+/ ?', action: 'help' },
 
 // keyboard navigation forum
 { key: 'j', down: '.branchTitle' },
