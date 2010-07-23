@@ -29,9 +29,9 @@ var keys = [
 { key: 'shift+/ ?', action: 'help' },
 
 // keyboard navigation forum
-{ key: 'j', down: '.branchTitle' },
-{ key: 'k', up: '.branchTitle' },
-{ key: 'v', click: '.branchTitle.selected > a' },
+{ key: 'j', down: '.branchContainer' },
+{ key: 'k', up: '.branchContainer' },
+{ key: 'v', click: '.branchContainer.selected .branchTitle a' },
 // keyboard navigation gateway
 { key: 'j', down: '.messageBlock > div:first-child' },
 { key: 'k', up: '.messageBlock > div:first-child' },
