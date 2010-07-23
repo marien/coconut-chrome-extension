@@ -8,7 +8,7 @@
     {
       "matches": ["https://terminal.ogd.nl/*", "https://*.terminal.ogd.nl/*"],
       "css": ["styles.css"],
-      "js": ["jquery-1.4.2.js", "jquery.hotkeys.js", "config.js", "script.js"]
+      "js": ["jquery-1.4.2.js", "jquery.hotkeys.js", "config.js", "script.js", "ux.js"]
     }
   ],
   "description": "Chrome Extension voor de Terminal",
