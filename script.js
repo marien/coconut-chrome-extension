@@ -70,14 +70,12 @@ jQuery.each(keys, function() {
         var selector = this.down;
         jQuery(document).bind('keydown', this.key, function () {
                 var selected = jQuery(selector).filter('.selected').first();
-                jQuery(selected).removeClass('selected');
-                var index = jQuery(selector).index(selected);
-                var new_selected = jQuery(selector).get(index+1);
-                if (new_selected == undefined)
-                {
-                    new_selected = jQuery(selector).get(0);
+                var new_index = jQuery(selector).index(selected) + 1;
+                if (new_index < jQuery(selector).length) {
+                    jQuery(selected).removeClass('selected');
+                    var new_selected = jQuery(selector).get(new_index);
+                    jQuery(new_selected).addClass('selected').attr('tabindex', '-1').focus().removeAttr('tabindex');
                 }
-                jQuery(new_selected).addClass('selected').attr('tabindex', '-1').focus().removeAttr('tabindex');
                 return false;
             }
         );
@@ -87,10 +85,12 @@ jQuery.each(keys, function() {
         var selector = this.up;
         jQuery(document).bind('keydown', this.key, function () {
                 var selected = jQuery(selector).filter('.selected').first();
-                jQuery(selected).removeClass('selected');
-                var index = jQuery(selector).index(selected);
-                var new_selected = jQuery(selector).get(index-1);
-                jQuery(new_selected).addClass('selected').attr('tabindex', '-1').focus().removeAttr('tabindex');
+                var new_index = jQuery(selector).index(selected) - 1;
+                if (new_index >= 0) {
+                    jQuery(selected).removeClass('selected');
+                    var new_selected = jQuery(selector).get(new_index);
+                    jQuery(new_selected).addClass('selected').attr('tabindex', '-1').focus().removeAttr('tabindex');
+                }
                 return false;
             }
         );
