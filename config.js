@@ -32,6 +32,7 @@ var keys = [
 { key: 'j', down: '.branchContainer' },
 { key: 'k', up: '.branchContainer' },
 { key: 'v', click: '.branchContainer.selected .branchTitle a' },
+{ key: 'shift+v', click: '.branchContainer.selected .branchDescription a' },
 // keyboard navigation gateway
 { key: 'j', down: '.messageBlock > div:first-child' },
 { key: 'k', up: '.messageBlock > div:first-child' },
