@@ -1,1 +1,18 @@
 .selected { }
+
+#simplemodal-overlay {
+background:black;
+}
+
+#simplemodal-container {
+background:black;
+padding: 10px;
+}
+
+.helpkey {
+color:white;
+}
+
+.helpdisabled {
+color:grey;
+}

@@ -54,14 +54,52 @@ jQuery.each(keys, function() {
     if (this.action != undefined) {
         switch(this.action) {
             case 'help':
-                /*jQuery(document).bind('keydown', this.key, function () {
-                    jQuery('<div id="chrome-terminel-keys"></div>')
-                        .append(
+                jQuery(document).bind('keydown', this.key, function () {
+                        var help = jQuery('<div id="help" class="help"></div>');
                         jQuery.each(keys, function() {
-                            //
+                            var action = 'unknown';
+                            var selector = '';
+                            if (this.link != undefined) {
+                                action = 'link';
+                                selector = this.link;
+                                desc = this.link;
+                            }
+                            else if (this.url != undefined) {
+                                action = 'url';
+                                selector = 'body';
+                                desc = this.url;
+                            }
+                            else if (this.focus != undefined) {
+                                action = 'focus';
+                                selector = this.focus;
+                                desc = this.focus;
+                            }
+                            else if (this.click != undefined) {
+                                action = 'click';
+                                selector = this.click;
+                                desc = this.click;
+                            }
+                            else if (this.action != undefined) {
+                                action = 'action';
+                                selector = 'body';
+                                desc = this.action;
+                            }
+                            else if (this.up != undefined) {
+                                action = 'up';
+                                selector = this.up;
+                                desc = this.up;
+                            }
+                            else if (this.down != undefined) {
+                                action = 'down';
+                                selector = this.down;
+                                desc = this.down;
+                            }
+                            var enabled = jQuery(selector).length > 0 ? 'helpenabled' : 'helpdisabled';
+                            jQuery('<div class="helpkey ' + enabled + '">' + action + ' ' + this.key+':' + desc + '</div>')
+                            .appendTo(help);
                         });
-                        return false;
-                    });*/
+                        help.modal({overlayClose:true});
+                    });
                 break;
         }
     }
