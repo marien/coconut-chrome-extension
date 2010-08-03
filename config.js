@@ -40,5 +40,5 @@ var keys = [
 // keyboard navigation blog
 { key: 'j', down: '.commonContentPost .postTitle' },
 { key: 'k', up: '.commonContentPost .postTitle' },
-{ key: 'v', click: '.commonContentPost .postTitle a' },
+{ key: 'v', click: '.commonContentPost .postTitle.selected a' },
 ];
