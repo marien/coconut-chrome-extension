@@ -1,6 +1,6 @@
 var keys = [
 // menu links
-{ key: 'h', link: '.topBar a[title=]:contains(terminal center)' },
+{ key: 'h', link: '.topBar a[title=]:contains(coconut center)' },
 { key: 'n', link: '.topBar a[title=]:contains(nieuws & info)' },
 { key: 'f', link: '.topBar a[title=]:contains(interne forums)' },
 { key: 'g', link: '.topBar a[title=]:contains(sociaal netwerk)' },

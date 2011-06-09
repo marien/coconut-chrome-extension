@@ -2,35 +2,35 @@
 <head>
 <script src="jquery-1.4.2.js" type="text/javascript"></script>
 <script type="text/javascript" >
-function getTerminalUrl() {
-  var url = "https://terminal.ogd.nl/";
+function getCoconutUrl() {
+  var url = "https://coconut.ogd.nl/";
   return url;
 }
 
-function isTerminalUrl(url) {
-  var terminal = getTerminalUrl();
-  if (url.indexOf(terminal) != 0)
+function isCoconutUrl(url) {
+  var coconut = getCoconutUrl();
+  if (url.indexOf(coconut) != 0)
     return false;
 
-  return url; //.length == terminal.length || url[terminal.length] == '?' ||
+  return url; //.length == coconut.length || url[coconut.length] == '?' ||
               //         url[gmail.length] == '#';
 }
 
-function goToTerminal() {
+function goToCoconut() {
   chrome.tabs.getAllInWindow(undefined, function(tabs) {
     for (var i = 0, tab; tab = tabs[i]; i++) {
-      if (tab.url && isTerminalUrl(tab.url)) {
+      if (tab.url && isCoconutUrl(tab.url)) {
         chrome.tabs.update(tab.id, {selected: true});
         return;
       }
     }
-    chrome.tabs.create({url: getTerminalUrl()});
+    chrome.tabs.create({url: getCoconutUrl()});
   });
 }
 
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener(function(tab) {
-	goToTerminal();
+	goToCoconut();
 });
 
 var pollInterval = 1000 * 60;
@@ -54,7 +54,7 @@ function getForumUnreadCount() {
 	}
 
 	jQuery.ajax({
-		url: getTerminalUrl() + 'forum/categories/show_non_read.json',
+		url: getCoconutUrl() + 'forum/categories/show_non_read.json',
 		timeout: requestTimeout,
 		success: function (data) {
 			if (data.topics != undefined)
