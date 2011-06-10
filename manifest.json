@@ -8,7 +8,7 @@
     {
       "matches": ["https://coconut.ogd.nl/*", "https://*.coconut.ogd.nl/*"],
       "css": ["styles.css"],
-      "js": ["jquery-1.4.2.js", "jquery.simplemodal-1.3.5.js", "jquery.hotkeys.js", "config.js", "script.js", "ux.js"]
+      "js": ["jquery-1.6.1.min.js", "jquery.simplemodal-1.4.1.min.js", "jquery.hotkeys.js", "config.js", "script.js", "ux.js"]
     }
   ],
   "description": "Chrome Extension voor de Coconut",
@@ -21,5 +21,5 @@
   "permissions": [
     "tabs", "https://coconut.ogd.nl/*", "https://*.coconut.ogd.nl/*"
   ],
-  "version": "0.1"
+  "version": "0.1.1"
 }
