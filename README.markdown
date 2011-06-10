@@ -1,5 +1,10 @@
 # Coconut Chrome Extension
-Coconut Chrome Extension is a Google Chrome extension for The Coconut: a social network for the business.
+Coconut Chrome Extension is a Google Chrome extension for Coconut: the enterprise social network as found on http://coconutcenter.com.
+
+## Features
+* Keyboard navigation using jquery.hotkeys from http://github.com/tzuryby/jquery.hotkeys.
+* Toolbar icon showing unread forum threads count.
+* Click on toolbar icon to open a new Coconut tab or switch to the nearest open Coconut tab.
 
 ## Usage
 Fork or otherwise download the extension. Open chrome://extensions/ in Google Chrome. Open developer mode and add an extracted extension.
