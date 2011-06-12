@@ -19,7 +19,7 @@
   },
   "name": "Coconut Chrome Extension",
   "permissions": [
-    "tabs", "https://coconut.ogd.nl/*", "https://*.coconut.ogd.nl/*"
+    "tabs", "notifications", "https://coconut.ogd.nl/*", "https://*.coconut.ogd.nl/*"
   ],
   "version": "0.1.3"
 }

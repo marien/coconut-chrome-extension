@@ -53,14 +53,46 @@ function getForumUnreadCount() {
 		window.setTimeout(getForumUnreadCount, pollInterval);
 	}
 
+    var prev_topics = false;
+    function showNotification(topics) {
+        // loading initial set of topics
+        if (!prev_topics) {
+            prev_topics = topics;
+            return;
+        }
+        // show all new topics
+        jQuery(topics).each(function () {
+            var found = false;
+            var rlink = this.reactionsLink;
+            jQuery.each(prev_topics, function() {
+                found = found || this.reactionsLink == rlink;
+            });
+            if (!found) {
+                var notification = webkitNotifications.createNotification(
+                    this.userAvatarUrl,
+                    this.topicTitle,
+                    this.content
+                );
+                notification.show();
+            }
+        });
+        // store topics
+        prev_topics = topics;
+    }
+
 	jQuery.ajax({
 		url: getCoconutUrl() + 'forum/categories/show_non_read.json',
 		timeout: requestTimeout,
 		success: function (data) {
 			if (data.topics != undefined)
-				onSuccess(data.topics.length)
+            {
+				onSuccess(data.topics.length);
+				showNotification(data.topics);
+            }
 			else
+            {
 				onError();
+            }
 		},
 		error: function (data) {
 			onError();
