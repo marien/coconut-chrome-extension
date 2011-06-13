@@ -4,6 +4,8 @@ Coconut Chrome Extension is a Google Chrome extension for Coconut: the enterpris
 ## Features
 * Keyboard navigation using jquery.hotkeys from http://github.com/tzuryby/jquery.hotkeys.
 * Toolbar icon showing unread forum threads count.
+* Desktop notification for new unread forum threads.
+* Options for enabling notifications, keyboard navigation and setting the refresh interval.
 * Click on toolbar icon to open a new Coconut tab or switch to the nearest open Coconut tab.
 
 ## Usage
