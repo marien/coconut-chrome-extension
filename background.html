@@ -1,6 +1,7 @@
 <html>
 <head>
 <script src="jquery-1.6.1.min.js" type="text/javascript"></script>
+<script src="prefs.js"></script>
 <script type="text/javascript" >
 function getCoconutUrl() {
   var url = "https://coconut.ogd.nl/";
@@ -33,7 +34,6 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	goToCoconut();
 });
 
-var pollInterval = 1000 * 60;
 var requestTimeout = 1000 * 2;
 
 function getForumUnreadCount() {
@@ -43,18 +43,18 @@ function getForumUnreadCount() {
 		chrome.browserAction.setBadgeBackgroundColor({color:[208, 0, 24, 255]});
 		chrome.browserAction.setBadgeText({text: count != 0 ? count.toString() : ""});
 		chrome.browserAction.setIcon({path:"icon19.png"});
-		window.setTimeout(getForumUnreadCount, pollInterval);
+		window.setTimeout(getForumUnreadCount, getRefreshInterval());
 	}
 
 	function onError() {
 		chrome.browserAction.setBadgeText({text: "?"});
 		chrome.browserAction.setBadgeBackgroundColor({color:[190, 190, 190, 230]});
 		chrome.browserAction.setIcon({path:"icon19g.png"});
-		window.setTimeout(getForumUnreadCount, pollInterval);
+		window.setTimeout(getForumUnreadCount, getRefreshInterval());
 	}
 
     var prev_topics = false;
-    function showNotification(topics) {
+    function showNotifications(topics) {
         // loading initial set of topics
         if (!prev_topics) {
             prev_topics = topics;
@@ -87,7 +87,9 @@ function getForumUnreadCount() {
 			if (data.topics != undefined)
             {
 				onSuccess(data.topics.length);
-				showNotification(data.topics);
+                if (getNotifications()) {
+                    showNotifications(data.topics);
+                }
             }
 			else
             {
@@ -103,6 +105,12 @@ function getForumUnreadCount() {
 function init() {
   getForumUnreadCount();
 }
+
+chrome.extension.onRequest.addListener(
+  function(request, sender, sendResponse) {
+    if (request.getOption == KEYBOARD_NAVIGATION_KEY)
+      sendResponse({KEYBOARD_NAVIGATION_KEY: getKeyboardNavigation()});
+  });
 
 </script>
 </head>

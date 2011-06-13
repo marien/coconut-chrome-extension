@@ -1,3 +1,5 @@
+chrome.extension.sendRequest({getOption: KEYBOARD_NAVIGATION_KEY}, function(response) {
+if (response.KEYBOARD_NAVIGATION_KEY) {
 jQuery.each(keys, function() {
 
     if (this.link != undefined) {
@@ -134,3 +136,4 @@ jQuery.each(keys, function() {
         );
     }
 });
+}});
