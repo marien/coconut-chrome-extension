@@ -8,7 +8,11 @@ var selector = '.messageBlock > div:first-child';
 jQuery(selector).live( 'focus', function () {
     var index = jQuery(selector).index(this);
     var length = jQuery(selector).length;
-    if ((index >= length-2) && (jQuery('.moreLoader').css('display')=='none')) {
+    if ((index >= length-1) && (jQuery('.moreLoader').css('display')=='none')) {
+        var selected_id = jQuery(selector).filter('.selected').first()[0].id;
+        jQuery('#messages_widget_container').bind('DOMNodeInserted', function() {
+            jQuery('#'+selected_id).addClass('selected').attr('tabindex', '-1').focus().removeAttr('tabindex');
+        });
         var evt = document.createEvent('MouseEvents');
         evt.initMouseEvent('click', true, true,
             document.defaultView, 1, 0, 0, 0, 0, false,
