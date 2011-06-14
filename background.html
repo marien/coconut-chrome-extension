@@ -34,8 +34,6 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	goToCoconut();
 });
 
-var requestTimeout = 1000 * 2;
-
 function getForumUnreadCount() {
     chrome.browserAction.setBadgeText({text: "." });
 
@@ -82,7 +80,6 @@ function getForumUnreadCount() {
 
 	jQuery.ajax({
 		url: getCoconutUrl() + 'forum/categories/show_non_read.json',
-		timeout: requestTimeout,
 		success: function (data) {
 			if (data.topics != undefined)
             {
