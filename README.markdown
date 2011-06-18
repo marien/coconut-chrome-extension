@@ -8,6 +8,7 @@ Coconut Chrome Extension is a Google Chrome extension for Coconut: the enterpris
 * Options for enabling notifications, keyboard navigation and setting the refresh interval.
 * Click on toolbar icon to open a new Coconut tab or switch to the nearest open Coconut tab.
 * Autorefresh option for widget center.
+* Fix for forum titles in titlebar (by Jauco)
 
 ## Usage
 Fork or otherwise download the extension. Open chrome://extensions/ in Google Chrome. Open developer mode and add an extracted extension.
