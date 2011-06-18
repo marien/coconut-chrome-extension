@@ -32,7 +32,7 @@ function setRefreshInterval(value) {
 }
 
 function getReloadCenterInterval() {
-  return parseInt(localStorage[RELOADCENTER_INTERVAL_KEY] || '60000', 10);
+  return parseInt(localStorage[RELOADCENTER_INTERVAL_KEY] || '300000', 10);
 }
 
 function setReloadCenterInterval(value) {
