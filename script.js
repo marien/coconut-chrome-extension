@@ -1,3 +1,4 @@
+// add keyboard navigation if enabled
 chrome.extension.sendRequest({getOption: KEYBOARD_NAVIGATION_KEY}, function(response) {
 if (response.KEYBOARD_NAVIGATION_KEY) {
 jQuery.each(keys, function() {
@@ -137,3 +138,21 @@ jQuery.each(keys, function() {
     }
 });
 }});
+
+// reload center every interval if enabled
+chrome.extension.sendRequest({getOption: RELOADCENTER_INTERVAL_KEY}, function(response) {
+var reloadcenterinterval = response.RELOADCENTER_INTERVAL_KEY;
+if (reloadcenterinterval > 0) {
+    function reloadCenter() {
+        var evt = document.createEvent('MouseEvents');
+        evt.initMouseEvent('click', true, true,
+            document.defaultView, 1, 0, 0, 0, 0, false,
+            false, false, false, 0, null);
+        jQuery('.reloadButton').each( function() {
+            this.dispatchEvent(evt);
+        });
+		window.setTimeout(reloadCenter, reloadcenterinterval);
+    }
+	window.setTimeout(reloadCenter, reloadcenterinterval);
+}
+});

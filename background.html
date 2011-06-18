@@ -107,6 +107,8 @@ chrome.extension.onRequest.addListener(
   function(request, sender, sendResponse) {
     if (request.getOption == KEYBOARD_NAVIGATION_KEY)
       sendResponse({KEYBOARD_NAVIGATION_KEY: getKeyboardNavigation()});
+    if (request.getOption == RELOADCENTER_INTERVAL_KEY)
+      sendResponse({RELOADCENTER_INTERVAL_KEY: getReloadCenterInterval()});
   });
 
 </script>

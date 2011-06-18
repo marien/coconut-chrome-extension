@@ -1,6 +1,7 @@
 var KEYBOARD_NAVIGATION_KEY = 'keyboard-navigation';
 var NOTIFICATIONS_KEY = 'notifications';
 var REFRESH_INTERVAL_KEY = 'refresh-interval';
+var RELOADCENTER_INTERVAL_KEY = 'reloadcenter-interval';
 
 function getKeyboardNavigation() {
   if (!localStorage[KEYBOARD_NAVIGATION_KEY])
@@ -28,4 +29,12 @@ function getRefreshInterval() {
 
 function setRefreshInterval(value) {
   localStorage[REFRESH_INTERVAL_KEY] = value;
+}
+
+function getReloadCenterInterval() {
+  return parseInt(localStorage[RELOADCENTER_INTERVAL_KEY] || '60000', 10);
+}
+
+function setReloadCenterInterval(value) {
+  localStorage[RELOADCENTER_INTERVAL_KEY] = value;
 }

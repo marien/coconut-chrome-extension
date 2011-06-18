@@ -57,6 +57,11 @@
         refreshIntervalNode.children[refreshIntervalNode.selectedIndex].value;
     setRefreshInterval(refreshInterval);
 
+    var reloadcenterIntervalNode = formNode['reloadcenter-interval'];
+    var reloadcenterInterval =
+        reloadcenterIntervalNode.children[reloadcenterIntervalNode.selectedIndex].value;
+    setReloadCenterInterval(reloadcenterInterval);
+
     // Update status to let user know options were saved.
     var buttonNode = $('save-button');
     buttonNode.innerHTML = chrome.i18n.getMessage('savedMessage');
@@ -88,6 +93,17 @@
         break;
       }
     }
+
+    var reloadcenterInterval = getReloadCenterInterval();
+    var reloadcenterIntervalNode = formNode['reloadcenter-interval'];
+    for (var i = 0, reloadcenterValueNode;
+         reloadcenterValueNode = reloadcenterIntervalNode[i];
+         i++) {
+      if (reloadcenterValueNode.value == reloadcenterInterval) {
+        reloadcenterValueNode.selected = 'true';
+        break;
+      }
+    }
   }
 
   function initForm() {
@@ -97,6 +113,16 @@
     var refreshIntervalNode = formNode['refresh-interval'];
     for (var i = 0, interval; interval = UPDATE_INTERVAL_MINUTES[i]; i++) {
       refreshIntervalNode.options[refreshIntervalNode.options.length] =
+          new Option(interval.toString() + ' minute' + (interval != 1 ? 's' : '')/*chrome.i18n.getMessage('minutes', interval.toString())*/,
+              interval * 60000);
+    }
+	
+    var reloadcenterIntervalNode = formNode['reloadcenter-interval'];
+    reloadcenterIntervalNode.options[reloadcenterIntervalNode.options.length] =
+          new Option('disabled' /*chrome.i18n.getMessage('minutes', interval.toString())*/,
+              0);
+    for (var i = 0, interval; interval = UPDATE_INTERVAL_MINUTES[i]; i++) {
+      reloadcenterIntervalNode.options[reloadcenterIntervalNode.options.length] =
           new Option(interval.toString() + ' minute' + (interval != 1 ? 's' : '')/*chrome.i18n.getMessage('minutes', interval.toString())*/,
               interval * 60000);
     }
@@ -112,6 +138,7 @@
     document.getElementById('show-keyboard-navigation').innerHTML = 'Keyboard navigation enabled'; // chrome.i18n.getMessage('keyboardNavigation');
     document.getElementById('show-notifications').innerHTML = 'Notifications enabled'; // chrome.i18n.getMessage('showModule');
     document.getElementById('interval-text').innerHTML = 'Interval for update'; // chrome.i18n.getMessage('intervalText');
+    document.getElementById('reloadcenter-text').innerHTML = 'Interval for reload center'; // chrome.i18n.getMessage('reloadcenterText');
     document.getElementById('save-button').innerHTML = 'Save'; // chrome.i18n.getMessage('saveButton');
   }
 
@@ -151,6 +178,13 @@
     <td class="label" id="interval-text"></td>
     <td>
       <select name="refresh-interval">
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="label" id="reloadcenter-text"></td>
+    <td>
+      <select name="reloadcenter-interval">
       </select>
     </td>
   </tr>
