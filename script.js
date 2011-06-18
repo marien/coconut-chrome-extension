@@ -58,10 +58,11 @@ jQuery.each(keys, function() {
         switch(this.action) {
             case 'help':
                 jQuery(document).bind('keydown', this.key, function () {
-                        var help = jQuery('<div id="help" class="help"></div>');
+                        var help = jQuery('<div id="help" class="help"><h1>Keyboard navigation help</h1></div>');
                         jQuery.each(keys, function() {
                             var action = 'unknown';
                             var selector = '';
+                            var desc = '';
                             if (this.link != undefined) {
                                 action = 'link';
                                 selector = this.link;
@@ -98,8 +99,8 @@ jQuery.each(keys, function() {
                                 desc = this.down;
                             }
                             var enabled = jQuery(selector).length > 0 ? 'helpenabled' : 'helpdisabled';
-                            jQuery('<div class="helpkey ' + enabled + '">' + action + ' ' + this.key+':' + desc + '</div>')
-                            .appendTo(help);
+                            jQuery('<div class="helpkey ' + enabled + '" title="action: ' + action + ' css-selector: ' + desc + '">' + this.key + ': ' + this.help_message + '</div>')
+                                .appendTo(help);
                         });
                         help.modal({overlayClose:true});
                     });
