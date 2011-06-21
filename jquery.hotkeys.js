@@ -32,6 +32,8 @@
 		}
 	};
 
+    var sequenceTimeout, sequenceKeys = [];
+
 	function keyHandler( handleObj ) {
 		// Only care when a possible input has been specified
 		if ( typeof handleObj.data !== "string" ) {
@@ -40,7 +42,14 @@
 		
 		var origHandler = handleObj.handler,
 			keys = handleObj.data.toLowerCase().split(" ");
-	
+
+        var sequences = [];
+        jQuery.each( keys, function() {
+            if ( /;/.test( this ) ) {
+                sequences.push( this.split(";") );
+            }
+        });
+
 		handleObj.handler = function( event ) {
 			// Don't fire in text-accepting inputs that we didn't directly bind to
             if ( this !== event.target && ( /textarea|select/i.test( event.target.nodeName ) ||
@@ -85,11 +94,55 @@
 			}
 
 			for ( var i = 0, l = keys.length; i < l; i++ ) {
-				if ( possible[ keys[i] ] ) {
-					return origHandler.apply( this, arguments );
-				}
-			}
+                // check for sequence based shortcut
+                for ( var c = 0; c < sequences.length; c++ ) {
+                    if ( sequences[c][sequenceKeys.length] && possible[ sequences[c][sequenceKeys.length] ] && ( sequenceKeys.length == 0 || IsPartialSequence( sequenceKeys, sequences[c] ) ) ) {
+                        sequenceKeys.push( sequences[c][sequenceKeys.length] );
+                        clearTimeout( sequenceTimeout );
+                        sequenceTimeout = window.setTimeout( function() {
+                            ClearSequence();
+                        }, 1000 );
+                    }
+                    if ( sequenceKeys && SequencesEqual( sequenceKeys, sequences[c] ) ) {
+                        ClearSequence();
+                        return origHandler.apply( this, arguments );
+                    }
+                }
+                if ( sequenceTimeout == null && possible[ keys[i] ] ) {
+                    return origHandler.apply( this, arguments );
+                }
+            }
 		};
+	}
+
+	function ClearSequence() {
+		window.setTimeout( function() {
+			clearTimeout( sequenceTimeout );
+			sequenceTimeout = null;
+			sequenceKeys = [];
+		}, 50 );
+	}
+
+	function IsPartialSequence( partialSequence, sequence )	{
+		for ( var i = 0, l = partialSequence.length; i < l; i++ ) {
+			if ( partialSequence[i] !== sequence[i] ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	function SequencesEqual( first, second ) {
+		if ( ! first || ! second || first.length != second.length ) {
+			return false;
+		}
+
+		for ( var i = 0, l = second.length; i < l; i++ ) {
+			if ( first[i] !== second[i] ) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	jQuery.each([ "keydown", "keyup", "keypress" ], function() {
