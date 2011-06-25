@@ -1,4 +1,6 @@
-var $forumtitle = jQuery(".forumPostsShow .postTitle .showTitle")
-if ($forumtitle.length){
-    document.title = $forumtitle.text();
-}
+jQuery(document).ready(function($){
+    var $forumtitle = $(".forumPostsShow .postTitle")
+    if ($forumtitle.length){
+        document.title = $forumtitle.text();
+    }
+});
