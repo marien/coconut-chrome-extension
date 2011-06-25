@@ -34,6 +34,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	goToCoconut();
 });
 
+var prev_topics = false;
 function getForumUnreadCount() {
     chrome.browserAction.setBadgeText({text: "." });
 
@@ -51,7 +52,6 @@ function getForumUnreadCount() {
 		window.setTimeout(getForumUnreadCount, getRefreshInterval());
 	}
 
-    var prev_topics = false;
     function showNotifications(topics) {
         // loading initial set of topics
         if (!prev_topics) {
