@@ -34,7 +34,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	goToCoconut();
 });
 
-var prev_topics = false;
+var PREVIOUS_TOPICS_KEY = 'prev_topics';
 function getForumUnreadCount() {
     chrome.browserAction.setBadgeText({text: "." });
 
@@ -54,10 +54,11 @@ function getForumUnreadCount() {
 
     function showNotifications(topics) {
         // loading initial set of topics
-        if (!prev_topics) {
-            prev_topics = topics;
+        if (localStorage[PREVIOUS_TOPICS_KEY] == undefined || !localStorage[PREVIOUS_TOPICS_KEY]) {
+            localStorage[PREVIOUS_TOPICS_KEY] = JSON.stringify(topics);
             return;
         }
+        var prev_topics = JSON.parse(localStorage[PREVIOUS_TOPICS_KEY]);
         // show all new topics
         jQuery(topics).each(function () {
             var found = false;
@@ -75,7 +76,7 @@ function getForumUnreadCount() {
             }
         });
         // store topics
-        prev_topics = topics;
+        localStorage[PREVIOUS_TOPICS_KEY] = JSON.stringify(topics);
     }
 
 	jQuery.ajax({
