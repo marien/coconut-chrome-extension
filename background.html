@@ -35,6 +35,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 });
 
 var PREVIOUS_TOPICS_KEY = 'prev_topics';
+var NEW_TOPICS_KEY = 'new_topics';
 function getForumUnreadCount() {
     chrome.browserAction.setBadgeText({text: "." });
 
@@ -59,7 +60,8 @@ function getForumUnreadCount() {
             return;
         }
         var prev_topics = JSON.parse(localStorage[PREVIOUS_TOPICS_KEY]);
-        // show all new topics
+        var new_topics = [];
+        // store all new topics
         jQuery(topics).each(function () {
             var found = false;
             var rlink = this.reactionsLink;
@@ -67,14 +69,15 @@ function getForumUnreadCount() {
                 found = found || this.reactionsLink == rlink;
             });
             if (!found) {
-                var notification = webkitNotifications.createNotification(
-                    this.userAvatarUrl,
-                    this.topicTitle,
-                    this.content
-                );
-                notification.show();
+                new_topics.push(this);
             }
         });
+        localStorage[NEW_TOPICS_KEY] = JSON.stringify(new_topics);
+        if (new_topics.length > 0) {
+            // show notification
+            var notification = webkitNotifications.createHTMLNotification('newunreadforumthreads.html');
+            notification.show();
+        }
         // store topics
         localStorage[PREVIOUS_TOPICS_KEY] = JSON.stringify(topics);
     }
