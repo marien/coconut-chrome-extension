@@ -58,7 +58,11 @@ jQuery.each(keys, function() {
         switch(this.action) {
             case 'help':
                 jQuery(document).bind('keydown', this.key, function () {
-                        var help = jQuery('<div id="help" class="help"><h1>Keyboard navigation help</h1></div>');
+                        var help = jQuery('<div id="help"></div>');
+                        var title = jQuery('<div class="help-title">Toetsenbord navigatie</div>').appendTo(help);
+                        var listleft = jQuery('<div class="help-list help-left"></div>').appendTo(help);
+                        var listright = jQuery('<div class="help-list help-right"></div>').appendTo(help);
+                        var list = [];
                         jQuery.each(keys, function() {
                             var action = 'unknown';
                             var selector = '';
@@ -98,11 +102,46 @@ jQuery.each(keys, function() {
                                 selector = this.down;
                                 desc = this.down;
                             }
-                            var enabled = jQuery(selector).length > 0 ? 'helpenabled' : 'helpdisabled';
-                            jQuery('<div class="helpkey ' + enabled + '" title="action: ' + action + ' css-selector: ' + desc + '">' + this.key + ': ' + this.help_message + '</div>')
-                                .appendTo(help);
+                            if (this.help_selector != undefined){
+                                selector = this.help_selector;
+                            }
+                            // test which keys are visible
+                            if ( jQuery(selector).length > 0 ) {
+                                var item = jQuery('<tr class="help-item" title="action: ' + action + ' css-selector: ' + desc + '"></tr>');
+                                var key = jQuery('<td class="help-key"></td>').appendTo(item);
+                                var ors = this.key.split(' ');
+                                for (var orc = 0; orc < ors.length; orc++) {
+                                    var thens = ors[orc].split(';');
+                                    for (var thenc = 0; thenc < thens.length; thenc++) {
+                                        var ands = thens[thenc].split('+');
+                                        for (var andc = 0; andc < ands.length; andc++) {
+                                            jQuery('<span class="help-char">' + ands[andc] + '</span>').appendTo(key);
+                                            if (andc < ands.length-1) {
+                                                jQuery('<span class="help-and"> en </span>').appendTo(key);
+                                            }
+                                        }
+                                        if (thenc < thens.length-1) {
+                                            jQuery('<span class="help-then"> vervolgens </span>').appendTo(key);
+                                        }
+                                    }
+                                    if (orc < ors.length-1) {
+                                        jQuery('<span class="help-or"> of </span>').appendTo(key);
+                                    }
+                                }
+                                jQuery('<span class="help-seperator"> : </span>').appendTo(key);
+                                jQuery('<td class="help-message">' + this.help_message + '</td>').appendTo(item);
+                                list.push(item);
+                            }
                         });
-                        help.modal({overlayClose:true});
+                        // add to left or right list
+                        for (var listc = 0; listc < list.length; listc++) {
+                            if (listc < ( list.length / 2 )) {
+                                list[listc].appendTo(listleft);
+                            } else {
+                                list[listc].appendTo(listright);
+                            }
+                        }
+                        help.modal({overlayClose:true, zIndex: 1500});
                     });
                 break;
         }

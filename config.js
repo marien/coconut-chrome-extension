@@ -28,17 +28,17 @@ var keys = [
 { key: 'shift+/ ?', action: 'help', help_message: 'Open help' },
 
 // keyboard navigation forum
-{ key: 'j', down: '.branchContainer', help_message: 'Volgende forum (bericht)' },
-{ key: 'k', up: '.branchContainer', help_message: 'Vorige forum (bericht)' },
-{ key: 'v', click: '.branchContainer.selected .branchTitle a', help_message: 'Open forum (bericht)' },
-{ key: 'shift+v', click: '.branchContainer.selected .branchDescription a', help_message: 'Ga naar laatste reactie' },
+{ key: 'j', down: '.branchContainer', help_message: 'Selecteer volgende forum (bericht)' },
+{ key: 'k', up: '.branchContainer', help_message: 'Selecteer vorige forum (bericht)' },
+{ key: 'v', click: '.branchContainer.selected .branchTitle a', help_message: 'Open geselecteerd forum (bericht)', help_selector: '.branchContainer' },
+{ key: 'shift+v', click: '.branchContainer.selected .branchDescription a', help_message: 'Ga naar laatste reactie van geselecteerd forum (bericht)', help_selector: '.branchContainer' },
 // keyboard navigation gateway
-{ key: 'j', down: '.messageBlock > div:first-child', help_message: 'Volgend netwerkbericht' },
-{ key: 'k', up: '.messageBlock > div:first-child', help_message: 'Vorig netwerkbericht' },
-{ key: 'v', click: '.messageBlock > div.selected + div.msgReactions:first a', help_message: 'Toon/Verberg reacties' },
-{ key: 'return', focus: '.messageBlock > div.selected + div.msgReactions + div.msgReactions + div.msgComments div.commentForm div.commentFormContent textarea', help_message: 'Schrijf reactie' },
+{ key: 'j', down: '.messageBlock > div:first-child', help_message: 'Selecteer volgend netwerkbericht' },
+{ key: 'k', up: '.messageBlock > div:first-child', help_message: 'Selecteer vorig netwerkbericht' },
+{ key: 'v', click: '.messageBlock > div.selected + div.msgReactions:first a', help_message: 'Toon/Verberg reacties van geselecteerd netwerkbericht', help_selector: '.messageBlock > div:first-child' },
+{ key: 'return', focus: '.messageBlock > div.selected + div.msgReactions + div.msgReactions + div.msgComments div.commentForm div.commentFormContent textarea', help_message: 'Schrijf reactie bij geselecteerd netwerkbericht', help_selector: '.messageBlock > div:first-child' },
 // keyboard navigation blog
-{ key: 'j', down: '.commonContentPost .postTitle', help_message: 'Volgend nieuwsbericht' },
-{ key: 'k', up: '.commonContentPost .postTitle', help_message: 'Vorig nieuwsbericht' },
-{ key: 'v', click: '.commonContentPost .postTitle.selected a', help_message: 'Open nieuwsbericht' },
+{ key: 'j', down: '.commonContentPost .postTitle', help_message: 'Selecteer volgend nieuwsbericht' },
+{ key: 'k', up: '.commonContentPost .postTitle', help_message: 'Selecteer vorig nieuwsbericht' },
+{ key: 'v', click: '.commonContentPost .postTitle.selected a', help_message: 'Open geselecteerd nieuwsbericht', help_selector: '.commonContentPost .postTitle' },
 ];
