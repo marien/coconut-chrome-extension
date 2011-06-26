@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Coconut Chrome Extension Test Page</title>
+    <link href="styles.css" media="all" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        // fake chrome extension functions
+        chrome.extension = new Object();
+        chrome.extension.sendRequest = function (data, f) {
+            var response = new Object();
+            response.KEYBOARD_NAVIGATION_KEY = true;
+            response.RELOADCENTER_INTERVAL_KEY = 0;
+            f.call(this, response);
+        }
+    </script>
+    <script src="jquery-1.6.1.min.js" type="text/javascript"></script>
+    <script src="jquery.simplemodal-1.4.1.min.js" type="text/javascript"></script>
+    <script src="jquery.hotkeys.js" type="text/javascript"></script>
+    <script src="config.js" type="text/javascript"></script>
+    <script src="prefs.js" type="text/javascript"></script>
+    <script src="script.js" type="text/javascript"></script>
+    <script src="ux.js" type="text/javascript"></script>
+    <script src="fix-forumtitles.js" type="text/javascript"></script>
+  </head>
+  <body>
+  </body>
+</html>
