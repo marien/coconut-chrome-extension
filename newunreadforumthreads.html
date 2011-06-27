@@ -163,9 +163,7 @@
             if (index >= topics.length || index < 0) {
                 index = 0;
             }
-            console.log(topics);
             var topic = topics[index];
-            console.log(topic);
             jQuery('div.title').text(topic.topicTitle).prepend('<div class="topicDate"></div>').attr('alt',topic.topicTitle);
             jQuery('div.topicDate').text(topic.reactionTime);
             // check if avatar url contains the full url..
