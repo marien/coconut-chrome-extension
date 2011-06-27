@@ -156,14 +156,16 @@
         function showItem() {
             var topics = JSON.parse(localStorage['new_topics']);
             // close if we have no (more) topics to show
-            if (topics.length = 0) {
+            if (topics.length == 0) {
                 close();
             }
             // reset index if out of range
             if (index >= topics.length || index < 0) {
                 index = 0;
             }
+            console.log(topics);
             var topic = topics[index];
+            console.log(topic);
             jQuery('div.title').text(topic.topicTitle).prepend('<div class="topicDate"></div>').attr('alt',topic.topicTitle);
             jQuery('div.topicDate').text(topic.reactionTime);
             // check if avatar url contains the full url..
