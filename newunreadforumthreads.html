@@ -38,8 +38,6 @@
         height: 80px;
         overflow: hidden;
         padding: 0px 3px;
-    }
-    .item a {
         cursor: pointer;
     }
     .itemImage img {
@@ -108,10 +106,17 @@
     <script type="text/javascript">
         var index = 0;
         
+        function getCoconutUrl() {
+            var url = "https://coconut.ogd.nl/";
+            return url;
+        }
+
         function init() {
             jQuery('a.next').bind('click', next);
             jQuery('a.previous').bind('click', previous);
+            jQuery('div.content').bind('click', open);
             showItem();
+            updateTotal();
         }
         
         function next() {
@@ -122,8 +127,7 @@
             }
             showItem();
         }
-        
-        
+
         function previous() {
             var topics = JSON.parse(localStorage['new_topics']);
             index--;
@@ -132,17 +136,51 @@
             }
             showItem();
         }
-        
+
+        function open() {
+            var topics = JSON.parse(localStorage['new_topics']);
+            // remove topic from unread list
+            var topic = topics.splice(index, 1)[0];
+            // update unread list
+            localStorage['new_topics'] = JSON.stringify(topics);
+            // set index
+            if (index >= topics.length) {
+                index = topics.length - 1;
+            }
+            // open link
+            chrome.tabs.create({url: topic.reactionsLink});
+            // show new item
+            showItem();
+        }
+
         function showItem() {
             var topics = JSON.parse(localStorage['new_topics']);
+            // close if we have no (more) topics to show
+            if (topics.length = 0) {
+                close();
+            }
+            // reset index if out of range
+            if (index >= topics.length || index < 0) {
+                index = 0;
+            }
             var topic = topics[index];
             jQuery('div.title').text(topic.topicTitle).prepend('<div class="topicDate"></div>').attr('alt',topic.topicTitle);
             jQuery('div.topicDate').text(topic.reactionTime);
-            jQuery('div.itemImage > img').attr('src',topic.userAvatarUrl);
+            // check if avatar url contains the full url..
+            var url = topic.userAvatarUrl;
+            if (url.indexOf('http') != 0) {
+                url = getCoconutUrl() + url;
+            }
+            jQuery('div.itemImage > img').attr('src',url);
             jQuery('div.itemImage > img').attr('alt',topic.userName);
-            //jQuery('div.itemText > a').attr('href',topic.reactionsLink);
             jQuery('div.topicReaction').text(topic.content).attr('alt',topic.content);
             jQuery('div.paginationContainerNumber').text('' + (index+1) + '/' + topics.length);
+        }
+
+        function updateTotal() {
+            var topics = JSON.parse(localStorage['new_topics']);
+            jQuery('div.paginationContainerNumber').text('' + (index+1) + '/' + topics.length);
+            window.setTimeout(updateTotal, 1000);
         }
     </script>
   </head>
@@ -150,15 +188,13 @@
     <div class="container">
         <div class="title"><div class="topicDate"></div></div>
         <div class="content">
-            <div class="item">
-                    <div class="itemImage">
-                        <img src="" alt="">
-                    </div>
-                    <div class="itemText">
-                        <div class="topicReaction"></div>
-                    </div>
-                    <div class="break"></div>
+            <div class="itemImage">
+                <img src="" alt="">
             </div>
+            <div class="itemText">
+                <div class="topicReaction"></div>
+            </div>
+            <div class="break"></div>
         </div>
         <div class="paginationContainer" >
             <div class="paginationContainerNumber"></div>

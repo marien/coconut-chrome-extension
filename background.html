@@ -36,6 +36,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 var PREVIOUS_TOPICS_KEY = 'prev_topics';
 var NEW_TOPICS_KEY = 'new_topics';
+var notification = false;
 function getForumUnreadCount() {
     chrome.browserAction.setBadgeText({text: "." });
 
@@ -59,6 +60,10 @@ function getForumUnreadCount() {
             localStorage[PREVIOUS_TOPICS_KEY] = JSON.stringify(topics);
             return;
         }
+        // seed localStorage for NEW_TOPICS_KEY
+        if (localStorage[NEW_TOPICS_KEY] == undefined || !localStorage[NEW_TOPICS_KEY]) {
+            localStorage[NEW_TOPICS_KEY] = JSON.stringify([]);
+        }
         var prev_topics = JSON.parse(localStorage[PREVIOUS_TOPICS_KEY]);
         var new_topics = [];
         // store all new topics
@@ -72,13 +77,20 @@ function getForumUnreadCount() {
                 new_topics.push(this);
             }
         });
+        // store new list of new topics in localstorage
+        new_topics = JSON.parse(localStorage[NEW_TOPICS_KEY]).concat(new_topics.reverse());
         localStorage[NEW_TOPICS_KEY] = JSON.stringify(new_topics);
-        if (new_topics.length > 0) {
+        // create notification if necessary
+        if ((new_topics.length > 0) && (!notification) ) {
             // show notification
-            var notification = webkitNotifications.createHTMLNotification('newunreadforumthreads.html');
+            notification = webkitNotifications.createHTMLNotification('newunreadforumthreads.html');
+            notification.onclose = function() {
+                localStorage[NEW_TOPICS_KEY] = JSON.stringify([]);
+                notification = false;
+            };
             notification.show();
         }
-        // store topics
+        // store previous topics for comparison on next update
         localStorage[PREVIOUS_TOPICS_KEY] = JSON.stringify(topics);
     }
 
