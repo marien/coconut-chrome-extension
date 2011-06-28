@@ -34,22 +34,22 @@
         background-color: #038206;
         color: white;
     }
-    .content {
+    .reaction {
         height: 80px;
         overflow: hidden;
         padding: 0px 3px;
         cursor: pointer;
     }
-    .content:hover {
+    .reaction:hover {
         background-color: #EEE;
     }
-    .itemImage img {
+    .reactionImage img {
         height: 30px;
         width: 30px;
         margin: 5px 5px 5px 0px;
         float: left;
     }
-    .topicReaction {
+    .reactionContent {
         color: #3E3E40;
     }
     .topicDate {
@@ -121,8 +121,8 @@
         function init() {
             jQuery('a.next').bind('click', next);
             jQuery('a.previous').bind('click', previous);
-            jQuery('div.content').bind('click', open);
-            showItem();
+            jQuery('div.reaction').bind('click', openReaction);
+            showReaction();
             updateTotal();
             resetRotate();
         }
@@ -133,7 +133,7 @@
             if (index >= topics.length) {
                 index = 0;
             }
-            showItem();
+            showReaction();
 
             rotateTimeout = window.setTimeout(autoRotate, 10000);
         }
@@ -152,7 +152,7 @@
             if (index >= topics.length) {
                 index = 0;
             }
-            showItem();
+            showReaction();
         }
 
         function previous() {
@@ -162,10 +162,10 @@
             if (index < 0) {
                 index = topics.length-1;
             }
-            showItem();
+            showReaction();
         }
 
-        function open() {
+        function openReaction() {
             resetRotate();
             var topics = JSON.parse(localStorage['new_topics']);
             // remove topic from unread list
@@ -178,11 +178,11 @@
             }
             // open link
             chrome.tabs.create({url: topic.reactionsLink});
-            // show new item
-            showItem();
+            // show new reaction
+            showReaction();
         }
 
-        function showItem() {
+        function showReaction() {
             var topics = JSON.parse(localStorage['new_topics']);
             // close if we have no (more) topics to show
             if (topics.length == 0) {
@@ -200,9 +200,9 @@
             if (url.indexOf('http') != 0) {
                 url = getCoconutUrl() + url;
             }
-            jQuery('div.itemImage > img').attr('src',url);
-            jQuery('div.itemImage > img').attr('alt',topic.userName);
-            jQuery('div.topicReaction').text(topic.content).attr('alt',topic.content);
+            jQuery('div.reactionImage > img').attr('src',url);
+            jQuery('div.reactionImage > img').attr('alt',topic.userName);
+            jQuery('div.reactionContent').text(topic.content).attr('alt',topic.content);
             jQuery('div.paginationContainerNumber').text('' + (index+1) + '/' + topics.length);
         }
 
@@ -216,13 +216,11 @@
   <body onload="init()">
     <div class="container">
         <div class="title"><div class="topicDate"></div></div>
-        <div class="content">
-            <div class="itemImage">
+        <div class="reaction">
+            <div class="reactionImage">
                 <img src="" alt="">
             </div>
-            <div class="itemText">
-                <div class="topicReaction"></div>
-            </div>
+            <div class="reactionContent"></div>
             <div class="break"></div>
         </div>
         <div class="paginationContainer" >
