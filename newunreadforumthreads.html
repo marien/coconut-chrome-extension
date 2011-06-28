@@ -105,7 +105,8 @@
     <script src="jquery-1.6.1.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         var index = 0;
-        
+        var rotateTimeout = false;
+
         function getCoconutUrl() {
             var url = "https://coconut.ogd.nl/";
             return url;
@@ -117,9 +118,29 @@
             jQuery('div.content').bind('click', open);
             showItem();
             updateTotal();
+            resetRotate();
         }
-        
+
+        function autoRotate() {
+            var topics = JSON.parse(localStorage['new_topics']);
+            index++;
+            if (index >= topics.length) {
+                index = 0;
+            }
+            showItem();
+
+            rotateTimeout = window.setTimeout(autoRotate, 10000);
+        }
+
+        function resetRotate() {
+            if (rotateTimeout) {
+                window.clearTimeout(rotateTimeout);
+            }
+            rotateTimeout = window.setTimeout(autoRotate, 60000);
+        }
+
         function next() {
+            resetRotate();
             var topics = JSON.parse(localStorage['new_topics']);
             index++;
             if (index >= topics.length) {
@@ -129,6 +150,7 @@
         }
 
         function previous() {
+            resetRotate();
             var topics = JSON.parse(localStorage['new_topics']);
             index--;
             if (index < 0) {
@@ -138,6 +160,7 @@
         }
 
         function open() {
+            resetRotate();
             var topics = JSON.parse(localStorage['new_topics']);
             // remove topic from unread list
             var topic = topics.splice(index, 1)[0];
