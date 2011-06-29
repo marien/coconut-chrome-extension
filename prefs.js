@@ -2,6 +2,13 @@ var KEYBOARD_NAVIGATION_KEY = 'keyboard-navigation';
 var NOTIFICATIONS_KEY = 'notifications';
 var REFRESH_INTERVAL_KEY = 'refresh-interval';
 var RELOADCENTER_INTERVAL_KEY = 'reloadcenter-interval';
+var PREVIOUS_TOPICS_KEY = 'prev_topics';
+var NEW_TOPICS_KEY = 'new_topics';
+
+function getCoconutUrl() {
+  var url = "https://coconut.ogd.nl/";
+  return url;
+}
 
 function getKeyboardNavigation() {
   if (!localStorage[KEYBOARD_NAVIGATION_KEY])

@@ -3,11 +3,6 @@
 <script src="jquery-1.6.1.min.js" type="text/javascript"></script>
 <script src="prefs.js"></script>
 <script type="text/javascript" >
-function getCoconutUrl() {
-  var url = "https://coconut.ogd.nl/";
-  return url;
-}
-
 function isCoconutUrl(url) {
   var coconut = getCoconutUrl();
   if (url.indexOf(coconut) != 0)
@@ -34,8 +29,6 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	goToCoconut();
 });
 
-var PREVIOUS_TOPICS_KEY = 'prev_topics';
-var NEW_TOPICS_KEY = 'new_topics';
 var notification = false;
 function getForumUnreadCount() {
     chrome.browserAction.setBadgeText({text: "." });

@@ -113,11 +113,6 @@
         var index = 0;
         var rotateTimeout = false;
 
-        function getCoconutUrl() {
-            var url = "https://coconut.ogd.nl/";
-            return url;
-        }
-
         function init() {
             jQuery('a.next').bind('click', next);
             jQuery('a.previous').bind('click', previous);
@@ -128,7 +123,7 @@
         }
 
         function autoRotate() {
-            var topics = JSON.parse(localStorage['new_topics']);
+            var topics = JSON.parse(localStorage[NEW_TOPICS_KEY]);
             index++;
             if (index >= topics.length) {
                 index = 0;
@@ -147,7 +142,7 @@
 
         function next() {
             resetRotate();
-            var topics = JSON.parse(localStorage['new_topics']);
+            var topics = JSON.parse(localStorage[NEW_TOPICS_KEY]);
             index++;
             if (index >= topics.length) {
                 index = 0;
@@ -157,7 +152,7 @@
 
         function previous() {
             resetRotate();
-            var topics = JSON.parse(localStorage['new_topics']);
+            var topics = JSON.parse(localStorage[NEW_TOPICS_KEY]);
             index--;
             if (index < 0) {
                 index = topics.length-1;
@@ -167,11 +162,11 @@
 
         function openReaction() {
             resetRotate();
-            var topics = JSON.parse(localStorage['new_topics']);
+            var topics = JSON.parse(localStorage[NEW_TOPICS_KEY]);
             // remove topic from unread list
             var topic = topics.splice(index, 1)[0];
             // update unread list
-            localStorage['new_topics'] = JSON.stringify(topics);
+            localStorage[NEW_TOPICS_KEY] = JSON.stringify(topics);
             // set index
             if (index >= topics.length) {
                 index = topics.length - 1;
@@ -183,7 +178,7 @@
         }
 
         function showReaction() {
-            var topics = JSON.parse(localStorage['new_topics']);
+            var topics = JSON.parse(localStorage[NEW_TOPICS_KEY]);
             // close if we have no (more) topics to show
             if (topics.length == 0) {
                 close();
@@ -207,7 +202,7 @@
         }
 
         function updateTotal() {
-            var topics = JSON.parse(localStorage['new_topics']);
+            var topics = JSON.parse(localStorage[NEW_TOPICS_KEY]);
             jQuery('div.paginationContainerNumber').text('' + (index+1) + '/' + topics.length);
             window.setTimeout(updateTotal, 1000);
         }
