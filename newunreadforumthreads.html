@@ -109,9 +109,11 @@
     }
     </style>
     <script src="jquery-1.6.1.min.js" type="text/javascript"></script>
+    <script src="prefs.js"></script>
     <script type="text/javascript">
         var index = 0;
         var rotateTimeout = false;
+        var autocloseTimeout = false;
 
         function init() {
             jQuery('a.next').bind('click', next);
@@ -120,6 +122,24 @@
             showReaction();
             updateTotal();
             resetRotate();
+            setAutoClose();
+        }
+
+        function autoClose() {
+            close();
+        }
+
+        function disableAutoClose() {
+            if (autocloseTimeout) {
+                window.clearTimeout(autocloseTimeout);
+                autocloseTimeout = false;
+            }
+        }
+
+        function setAutoClose() {
+            if (getCloseNotificationInterval()) {
+                autocloseTimeout = window.setTimeout(autoClose, getCloseNotificationInterval());
+            }
         }
 
         function autoRotate() {
@@ -141,6 +161,7 @@
         }
 
         function next() {
+            disableAutoClose();
             resetRotate();
             var topics = JSON.parse(localStorage[NEW_TOPICS_KEY]);
             index++;
@@ -151,6 +172,7 @@
         }
 
         function previous() {
+            disableAutoClose();
             resetRotate();
             var topics = JSON.parse(localStorage[NEW_TOPICS_KEY]);
             index--;
@@ -161,6 +183,7 @@
         }
 
         function openReaction() {
+            disableAutoClose();
             resetRotate();
             var topics = JSON.parse(localStorage[NEW_TOPICS_KEY]);
             // remove topic from unread list

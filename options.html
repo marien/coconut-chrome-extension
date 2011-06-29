@@ -39,6 +39,7 @@
    * Array for storing update interval.
    */
   var UPDATE_INTERVAL_MINUTES = [1, 5, 10, 15, 30];
+  var UPDATE_INTERVAL_SECONDS = [1, 5, 10, 15, 30];
 
   // Saves options to localStorage.
   function saveOptions() {
@@ -61,6 +62,11 @@
     var reloadcenterInterval =
         reloadcenterIntervalNode.children[reloadcenterIntervalNode.selectedIndex].value;
     setReloadCenterInterval(reloadcenterInterval);
+
+    var closenotificationIntervalNode = formNode['closenotification-interval'];
+    var closenotificationInterval =
+        closenotificationIntervalNode.children[closenotificationIntervalNode.selectedIndex].value;
+    setCloseNotificationInterval(closenotificationInterval);
 
     // Update status to let user know options were saved.
     var buttonNode = $('save-button');
@@ -104,6 +110,17 @@
         break;
       }
     }
+
+    var closenotificationInterval = getCloseNotificationInterval();
+    var closenotificationIntervalNode = formNode['closenotification-interval'];
+    for (var i = 0, closenotificationValueNode;
+         closenotificationValueNode = closenotificationIntervalNode[i];
+         i++) {
+      if (closenotificationValueNode.value == closenotificationInterval) {
+        closenotificationValueNode.selected = 'true';
+        break;
+      }
+    }
   }
 
   function initForm() {
@@ -127,6 +144,16 @@
               interval * 60000);
     }
 
+    var closenotificationIntervalNode = formNode['closenotification-interval'];
+    closenotificationIntervalNode.options[closenotificationIntervalNode.options.length] =
+          new Option('disabled' /*chrome.i18n.getMessage('seconds', interval.toString())*/,
+              0);
+    for (var i = 0, interval; interval = UPDATE_INTERVAL_SECONDS[i]; i++) {
+      closenotificationIntervalNode.options[closenotificationIntervalNode.options.length] =
+          new Option(interval.toString() + ' second' + (interval != 1 ? 's' : '')/*chrome.i18n.getMessage('seconds', interval.toString())*/,
+              interval * 1000);
+    }
+
     // Call to messages.json for implementing i18n.
     if (chrome.i18n.getMessage('direction') == 'rtl') {
       document.querySelector('body').style.direction = 'rtl';
@@ -139,6 +166,7 @@
     document.getElementById('show-notifications').innerHTML = 'Notifications enabled'; // chrome.i18n.getMessage('showModule');
     document.getElementById('interval-text').innerHTML = 'Interval for update'; // chrome.i18n.getMessage('intervalText');
     document.getElementById('reloadcenter-text').innerHTML = 'Interval for reload center'; // chrome.i18n.getMessage('reloadcenterText');
+    document.getElementById('closenotification-text').innerHTML = 'Interval for close desktop notification'; // chrome.i18n.getMessage('closenotificationText');
     document.getElementById('save-button').innerHTML = 'Save'; // chrome.i18n.getMessage('saveButton');
   }
 
@@ -185,6 +213,13 @@
     <td class="label" id="reloadcenter-text"></td>
     <td>
       <select name="reloadcenter-interval">
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="label" id="closenotification-text"></td>
+    <td>
+      <select name="closenotification-interval">
       </select>
     </td>
   </tr>

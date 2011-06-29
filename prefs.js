@@ -2,6 +2,7 @@ var KEYBOARD_NAVIGATION_KEY = 'keyboard-navigation';
 var NOTIFICATIONS_KEY = 'notifications';
 var REFRESH_INTERVAL_KEY = 'refresh-interval';
 var RELOADCENTER_INTERVAL_KEY = 'reloadcenter-interval';
+var CLOSENOTIFICATION_INTERVAL_KEY = 'closenotification-interval';
 var PREVIOUS_TOPICS_KEY = 'prev_topics';
 var NEW_TOPICS_KEY = 'new_topics';
 
@@ -44,4 +45,12 @@ function getReloadCenterInterval() {
 
 function setReloadCenterInterval(value) {
   localStorage[RELOADCENTER_INTERVAL_KEY] = value;
+}
+
+function getCloseNotificationInterval() {
+  return parseInt(localStorage[CLOSENOTIFICATION_INTERVAL_KEY] || '0', 10);
+}
+
+function setCloseNotificationInterval(value) {
+  localStorage[CLOSENOTIFICATION_INTERVAL_KEY] = value;
 }
