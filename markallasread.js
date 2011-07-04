@@ -31,7 +31,7 @@
     }
 })();
 
-jQuery.liveModify("#widget_container_168 .widgetContainerFooter", function(elm){
+jQuery.liveModify("a[href='https://coconut.ogd.nl/forum/categories/show_non_read']", function(elm){
     var $ = jQuery;
     $("<a />")
         .attr("href", "https://coconut.ogd.nl/forum/categories/all_visited")
@@ -52,5 +52,5 @@ jQuery.liveModify("#widget_container_168 .widgetContainerFooter", function(elm){
                 $link.closest(".widget_container").find(".reloadButton")[0].dispatchEvent(myEvent); //refresh widget
             });
         })
-        .appendTo(elm)
+        .insertAfter(elm);
 });
