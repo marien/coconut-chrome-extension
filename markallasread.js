@@ -31,25 +31,27 @@
     }
 })();
 
-jQuery.liveModify("a[href='https://coconut.ogd.nl/forum/categories/show_non_read']", function(elm){
-    var $ = jQuery;
-    $("<a />")
-        .attr("href", "https://coconut.ogd.nl/forum/categories/all_visited")
-        .text("markeer alle reacties als gelezen")
-        .addClass("widgetFooterLink")
+jQuery.liveModify("div.widget_container a[href$='/forum/categories/show_non_read']", function(elm){
+    jQuery("<a />")
+        .attr("href", "/forum/categories/all_visited")
+        .append(jQuery("<img />")
+            .attr('src', '/images/transparent.gif')
+            .attr('title', 'markeer alle reacties als gelezen')
+            .css({backgroundPosition: "0px -260px", backgroundImage: 'url(/images/coconut/icon_sprite.png)', backgroundRepeat: "no-repeat", height: "20px", width: "20px", display: "block"})
+            )
+        .css({position: "absolute", left: "0px", top: "0px", width: "20px", height: "20px", display: "block"})
+            .hover( function () { jQuery(this).css({backgroundColor: '#A9C4A9'}) }, 
+                    function () { jQuery(this).css({backgroundColor: ''}) } )
         .click(function(ev){
-            var $link, $spinner, myEvent;
+            var link, myEvent;
             ev.preventDefault(); //turn hyperlink into background call
-            $link = $(this); 
-            $spinner = $("<img>")
-                        .attr("src", '/images/coconut/loader_circle_20px_666666.gif')
-                        .css({paddingTop:"20px", "background-image":"None"});
-            $link.append($spinner);
-            $.get($link.attr("href"), function(){
-                $spinner.remove();
+            link = jQuery(this);
+            link.children().css({backgroundImage: ''}).attr('src', "/images/coconut/loader_circle_20px_666666.gif");
+            jQuery.get(link.attr("href"), function(){
+                link.children().attr('src', '/images/transparent.gif').css({backgroundImage: 'url(/images/coconut/icon_sprite.png)'});
                 myEvent = document.createEvent('MouseEvents');
                 myEvent.initEvent( 'click', true, true );
-                $link.closest(".widget_container").find(".reloadButton")[0].dispatchEvent(myEvent); //refresh widget
+                link.closest(".widget_container").find(".reloadButton")[0].dispatchEvent(myEvent); //refresh widget
             });
         })
         .insertAfter(elm);
