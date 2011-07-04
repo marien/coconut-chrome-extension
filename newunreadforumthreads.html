@@ -34,6 +34,10 @@
         background-color: #038206;
         color: white;
     }
+    .title:hover {
+        background-color: #EEE;
+        color: #038206;
+    }
     .reaction {
         height: 80px;
         overflow: hidden;
@@ -119,6 +123,7 @@
             jQuery('a.next').bind('click', next);
             jQuery('a.previous').bind('click', previous);
             jQuery('div.reaction').bind('click', openReaction);
+            jQuery('div.title').bind('click', openTopic);
             showReaction();
             updateTotal();
             resetRotate();
@@ -196,6 +201,24 @@
             }
             // open link
             chrome.tabs.create({url: topic.reactionsLink});
+            // show new reaction
+            showReaction();
+        }
+
+        function openTopic() {
+            disableAutoClose();
+            resetRotate();
+            var topics = JSON.parse(localStorage[NEW_TOPICS_KEY]);
+            // remove topic from unread list
+            var topic = topics.splice(index, 1)[0];
+            // update unread list
+            localStorage[NEW_TOPICS_KEY] = JSON.stringify(topics);
+            // set index
+            if (index >= topics.length) {
+                index = topics.length - 1;
+            }
+            // get topic url from reaction url and open link
+            chrome.tabs.create({url: topic.reactionsLink.split('?')[0]});
             // show new reaction
             showReaction();
         }
