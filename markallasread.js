@@ -39,9 +39,9 @@ jQuery.liveModify("div.widget_container a[href$='/forum/categories/show_non_read
             .attr('title', 'markeer alle reacties als gelezen')
             .css({backgroundPosition: "0px -260px", backgroundImage: 'url(/images/coconut/icon_sprite.png)', backgroundRepeat: "no-repeat", height: "20px", width: "20px", display: "block"})
             )
-        .css({position: "absolute", left: "0px", top: "0px", width: "20px", height: "20px", display: "block"})
+        .css({position: "absolute", left: "0px", top: "0px", width: "20px", height: "20px", display: "block", backgroundColor: '#038206'})
             .hover( function () { jQuery(this).css({backgroundColor: '#A9C4A9'}) }, 
-                    function () { jQuery(this).css({backgroundColor: ''}) } )
+                    function () { jQuery(this).css({backgroundColor: '#038206'}) } )
         .click(function(ev){
             var link, myEvent;
             ev.preventDefault(); //turn hyperlink into background call
