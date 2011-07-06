@@ -31,7 +31,7 @@
     }
 })();
 
-jQuery.liveModify("div.widget_container a[href$='/forum/categories/show_non_read']", function(elm){
+jQuery.liveModify("div.widget_container a[href*='/forum/categories/show_non_read']", function(elm){
     jQuery("<a />")
         .attr("href", "/forum/categories/all_visited")
         .append(jQuery("<img />")
