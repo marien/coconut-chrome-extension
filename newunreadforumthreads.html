@@ -243,7 +243,7 @@
             }
             jQuery('div.reactionImage > img').attr('src',url);
             jQuery('div.reactionImage > img').attr('alt',topic.userName);
-            jQuery('div.reactionContent').text(topic.content).attr('alt',topic.content);
+            jQuery('div.reactionContent').text(topic.shortContent).attr('alt',topic.shortContent);
             jQuery('div.paginationContainerNumber').text('' + (index+1) + '/' + topics.length);
         }
 
