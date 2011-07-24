@@ -6,7 +6,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://coconut.ogd.nl/*", "https://*.coconut.ogd.nl/*"],
+      "matches": ["https://coconut.ogd.nl/*", "https://coconut-beta.ogd.nl/*"],
       "css": ["styles.css"],
       "js": ["jquery-1.6.1.min.js", "jquery.simplemodal-1.4.1.min.js", "jquery.hotkeys.js", "config.js", "prefs.js", "script.js", "ux.js","fix-forumtitles.js", "markallasread.js"]
     }
