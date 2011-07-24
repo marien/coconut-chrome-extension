@@ -108,16 +108,106 @@ function getForumUnreadCount() {
 	});
 }
 
+function getChatStatus() {
+    function showOnlineNotifications(online) {
+        // loading initial set of online users (is done after every reload of background.html)
+        if (localStorage[NETWORK_CONNECTIONS_PREV_ONLINE_KEY] == undefined) {
+            localStorage[NETWORK_CONNECTIONS_PREV_ONLINE_KEY] = JSON.stringify(online);
+            return;
+        }
+        var prev_online = JSON.parse(localStorage[NETWORK_CONNECTIONS_PREV_ONLINE_KEY]);
+        var users = JSON.parse(localStorage[NETWORK_CONNECTIONS_KEY]);
+        // parse list for new online users
+        jQuery(online).each(function () {
+            var found = false;
+            var id = this.userId;
+            jQuery.each(prev_online, function() {
+                found = found || this.userId == id;
+            });
+            if (!found) {
+                var user = users[id];
+                if (user != undefined) {
+                    var notification = webkitNotifications.createNotification(
+                        user.img,
+                        user.name + ' is online',
+                        ''
+                    );
+                    notification.ondisplay = function() {
+                        window.setTimeout(function(n){n.cancel();},10000,notification);
+                    };
+                    notification.show();
+                }
+            }
+        });
+        
+        // parse list for new offline users
+        jQuery(prev_online).each(function () {
+            var found = false;
+            var id = this.userId;
+            jQuery.each(online, function() {
+                found = found || this.userId == id;
+            });
+            if (!found) {
+                var user = users[id];
+                if (user != undefined) {
+                    var notification = webkitNotifications.createNotification(
+                        user.img,
+                        user.name + ' is offline',
+                        ''
+                    );
+                    notification.ondisplay = function() {
+                        window.setTimeout(function(n){n.cancel();},10000,notification);
+                    };
+                    notification.show();
+                }
+            }
+        });
+        
+        localStorage[NETWORK_CONNECTIONS_PREV_ONLINE_KEY] = JSON.stringify(online);
+    }
+
+    jQuery.ajax({
+        url: getCoconutUrl() + 'chat/messages.json?user_ids='+localStorage[NETWORK_CONNECTIONS_UPDATE_KEY],
+        success: function (data) {
+            if (data.onlineUsers != undefined)
+            {
+                if (getNotifications()) {
+                    showOnlineNotifications(data.onlineUsers);
+                }
+            }
+            window.setTimeout(getChatStatus, getRefreshInterval());
+        },
+        error: function (data) {
+            window.setTimeout(getChatStatus, getRefreshInterval());
+        }
+    });
+}
+
 function init() {
+  // start forum unread loop
   getForumUnreadCount();
+  // clear previous online cache
+  if (localStorage[NETWORK_CONNECTIONS_PREV_ONLINE_KEY] != undefined)
+    localStorage.removeItem(NETWORK_CONNECTIONS_PREV_ONLINE_KEY);
+  // start chat status loop
+  getChatStatus();
 }
 
 chrome.extension.onRequest.addListener(
-  function(request, sender, sendResponse) {
-    if (request.getOption == KEYBOARD_NAVIGATION_KEY)
-      sendResponse({KEYBOARD_NAVIGATION_KEY: getKeyboardNavigation()});
-    if (request.getOption == RELOADCENTER_INTERVAL_KEY)
-      sendResponse({RELOADCENTER_INTERVAL_KEY: getReloadCenterInterval()});
+    function(request, sender, sendResponse) {
+        if (request.getOption == KEYBOARD_NAVIGATION_KEY)
+            sendResponse({KEYBOARD_NAVIGATION_KEY: getKeyboardNavigation()});
+        if (request.getOption == RELOADCENTER_INTERVAL_KEY)
+            sendResponse({RELOADCENTER_INTERVAL_KEY: getReloadCenterInterval()});
+        if (request.sendData == NETWORK_CONNECTIONS_KEY) {
+            localStorage[NETWORK_CONNECTIONS_KEY] = request.data;
+            var users = JSON.parse(request.data);
+            var ids = [];
+            for (id in users) {
+              ids.push(id);
+            }
+            localStorage[NETWORK_CONNECTIONS_UPDATE_KEY] = ids;
+        }
   });
 
 </script>

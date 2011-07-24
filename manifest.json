@@ -8,7 +8,7 @@
     {
       "matches": ["https://coconut.ogd.nl/*", "https://coconut-beta.ogd.nl/*"],
       "css": ["styles.css"],
-      "js": ["jquery-1.6.1.min.js", "jquery.simplemodal-1.4.1.min.js", "jquery.hotkeys.js", "config.js", "prefs.js", "script.js", "ux.js","fix-forumtitles.js", "markallasread.js"]
+      "js": ["jquery-1.6.1.min.js", "jquery.simplemodal-1.4.1.min.js", "jquery.hotkeys.js", "config.js", "prefs.js", "script.js", "ux.js","fix-forumtitles.js", "markallasread.js", "chat-extension.js"]
     }
   ],
   "description": "Google Chrome extension for Coconut: the enterprise social network as found on http://coconutcenter.com",
@@ -24,5 +24,5 @@
     "tabs",
     "https://coconut.ogd.nl/*"
   ],
-  "version": "0.3.10"
+  "version": "0.4.0"
 }
