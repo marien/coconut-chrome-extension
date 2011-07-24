@@ -35,8 +35,8 @@ var keys = [
 // keyboard navigation gateway
 { key: 'j', down: '.messageBlock > div:first-child', help_message: 'Selecteer volgend netwerkbericht' },
 { key: 'k', up: '.messageBlock > div:first-child', help_message: 'Selecteer vorig netwerkbericht' },
-{ key: 'v', click: '.messageBlock > div.selected + div.msgReactions:first a', help_message: 'Toon/Verberg reacties van geselecteerd netwerkbericht', help_selector: '.messageBlock > div:first-child' },
-{ key: 'return', focus: '.messageBlock > div.selected + div.msgReactions + div.msgReactions + div.msgComments div.commentForm div.commentFormContent textarea', help_message: 'Schrijf reactie bij geselecteerd netwerkbericht', help_selector: '.messageBlock > div:first-child' },
+{ key: 'v', click: '.messageBlock > div.selected > div.msgReactions:first a', help_message: 'Toon/Verberg reacties van geselecteerd netwerkbericht', help_selector: '.messageBlock > div:first-child' },
+{ key: 'return', focus: '.messageBlock > div.selected + div.msgNoComments + div.msgComments div.commentForm div.commentFormContent textarea', help_message: 'Schrijf reactie bij geselecteerd netwerkbericht', help_selector: '.messageBlock > div:first-child' },
 // keyboard navigation blog
 { key: 'j', down: '.commonContentPost .postTitle', help_message: 'Selecteer volgend nieuwsbericht' },
 { key: 'k', up: '.commonContentPost .postTitle', help_message: 'Selecteer vorig nieuwsbericht' },
