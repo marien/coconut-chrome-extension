@@ -127,14 +127,11 @@ function getChatStatus() {
             if (!found) {
                 var user = users[id];
                 if (user != undefined) {
-                    var notification = webkitNotifications.createNotification(
-                        user.img,
-                        user.name + ' is online',
-                        ''
-                    );
+                    var notification = webkitNotifications.createHTMLNotification('chat/online.html?user='+id);
                     notification.ondisplay = function() {
                         window.setTimeout(function(n){n.cancel();},10000,notification);
                     };
+                    window.setTimeout(function(n){n.cancel();},60000,notification);
                     notification.show();
                 }
             }
@@ -158,6 +155,7 @@ function getChatStatus() {
                     notification.ondisplay = function() {
                         window.setTimeout(function(n){n.cancel();},10000,notification);
                     };
+                    window.setTimeout(function(n){n.cancel();},60000,notification);
                     notification.show();
                 }
             }
@@ -193,6 +191,7 @@ function init() {
   getChatStatus();
 }
 
+var startchat = [];
 chrome.extension.onRequest.addListener(
     function(request, sender, sendResponse) {
         if (request.getOption == KEYBOARD_NAVIGATION_KEY)
@@ -206,7 +205,37 @@ chrome.extension.onRequest.addListener(
             for (id in users) {
               ids.push(id);
             }
+            // send any remaining startchat requests
             localStorage[NETWORK_CONNECTIONS_UPDATE_KEY] = ids;
+            while(startchat.length > 0) {
+                var user = startchat.pop()
+                sendResponse({command: START_CHAT_KEY, data: JSON.stringify(user)});
+            }
+        }
+        // handle start chat requests
+        if (request.command == START_CHAT_KEY) {
+            var user = JSON.parse(request.data);
+            var requestsent = false;
+            // check if we already have users waiting
+            if (startchat.length == 0) {
+                // find tab running Coconut
+                chrome.tabs.getAllInWindow(undefined, function(tabs) {
+                    for (var i = 0, tab; tab = tabs[i]; i++) {
+                      if (tab.url && isCoconutUrl(tab.url)) {
+                        chrome.tabs.update(tab.id, {selected: true});
+                        // send startchat request
+                        chrome.tabs.sendRequest(tab.id, {command: START_CHAT_KEY, data: JSON.stringify(user)});
+                        requestsent = true;
+                        return;
+                      }
+                    }
+                });
+            }
+            if (!requestsent) {
+                // create new tab running coconut and store user
+                chrome.tabs.create({url: getCoconutUrl()});
+                startchat.push(user);
+            }
         }
   });
 

@@ -8,6 +8,7 @@ var NEW_TOPICS_KEY = 'new_topics';
 var NETWORK_CONNECTIONS_KEY = 'network_connections';
 var NETWORK_CONNECTIONS_UPDATE_KEY = 'network_connections_update';
 var NETWORK_CONNECTIONS_PREV_ONLINE_KEY = 'network_connections_prev_online';
+var START_CHAT_KEY = 'start_chat';
 
 function getCoconutUrl() {
   var url = "https://coconut.ogd.nl/";
