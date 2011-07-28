@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title></title>
+    <style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 13px;
+        line-height: 20px;
+    }
+    a {
+        text-decoration: none;
+        outline: none;
+        color: #666;
+    }
+    div {
+        display: block;
+    }
+    body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+        margin: 0;
+    }
+    fieldset, img {
+        border: 0;
+    }
+    .break {
+        clear: both;
+    }
+    .container {
+        min-height: 30px;
+        position: relative;
+    }
+    .conversation {
+        min-height: 40px;
+        overflow: hidden;
+        padding: 0px 3px;
+        cursor: pointer;
+    }
+    .user:hover {
+        background-color: #EEE;
+    }
+    .userImage img {
+        height: 30px;
+        width: 30px;
+        margin: 5px 5px 5px 0px;
+        float: left;
+    }
+    .userMessage {
+        color: #3E3E40;
+        font-weight: bold;
+    }
+    </style>
+    <script src="../jquery-1.6.1.min.js" type="text/javascript"></script>
+    <script src="../prefs.js"></script>
+    <script src="../js/jquery.url.js"></script>
+    <script type="text/javascript">
+        function init() {
+            var messageids = $.url().param('messages').split(',');
+            var prev_messages = JSON.parse(localStorage[CHAT_PREV_MESSAGES_KEY]);
+            var messages = [];
+            jQuery(messageids).each(function() {
+                var messageid = this;
+                jQuery(prev_messages).each(function() {
+                    if (this.messageId == messageid) {
+                        messages.push(this);
+                        return;
+                    }
+                });
+            });
+            showMessages(messages);
+            
+            jQuery('div.conversation').bind('click', messages[0].conversationId, showConversation);
+        }
+        
+        function showMessages(messages) {
+            var users = JSON.parse(localStorage[NETWORK_CONNECTIONS_KEY]);
+            var user = users[messages[0].userId];
+            var url = user.img;
+            if (url.indexOf('http') != 0) {
+                url = getCoconutUrl() + url;
+            }
+            jQuery('div.userImage > img').attr('src',url);
+            jQuery('div.userMessage').text(user.name + ' says:');
+            jQuery(messages).each(function() {
+                jQuery('div.messages').append('<div class="message">' + this.message + '</div>');
+            });
+        }
+        
+        function showConversation(event) {
+            chrome.extension.sendRequest({command: CHAT_SHOW_CONVERSATION_KEY, data: JSON.stringify(event.data)});
+            close();
+        }
+    </script>
+  </head>
+  <body onload="init()">
+    <div class="container">
+        <div class="conversation">
+            <div class="userImage">
+                <img src="" alt="">
+            </div>
+            <div class="userMessage"></div>
+            <div class="messages"></div>
+            <div class="break"></div>
+        </div>
+        <div class="break"></div>
+    </div>
+  </body>
+</html>
