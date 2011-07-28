@@ -1,20 +1,21 @@
-//crappy plugin that makes sure that I don't have to worry about whether a DOM  
+//plugin that makes sure that I don't have to worry about whether a DOM  
 //element is added dynamically or not, and if it's reloaded using AJAX or 
 //whatever. see below for an example usage
 (function(){
     var $ = jQuery,
         selectors = {};
     function domEvent(ev){
-        var elm;
-        elm = ev.srcElement;
+        var elms;
         $.each(selectors, function(selector){
-            //FIXME: if the element sometimes is a subelement of the added tree
-            //you need to fix that here
-            if ($(elm).is(selector)){
+            elms = $(ev.srcElement).find(selector);
+            if (elms.prevObject.is(selector)){
+                elms = elms.andSelf()
+            }
+            elms.each(function(idx, elm){
                 $.each(selectors[selector], function(idx, func){
                     func(elm);
                 });
-            }
+            }); 
         });
     }
     document.addEventListener("DOMNodeInserted", domEvent, false);
