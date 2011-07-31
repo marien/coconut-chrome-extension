@@ -1,21 +1,33 @@
 {
   "background_page": "background.html",
   "browser_action": {
-    "default_icon": "icon19.png",
+    "default_icon": "img/icon19.png",
 	"default_title": "Coconut Chrome Extension"
   },
   "content_scripts": [
     {
       "matches": ["https://coconut.ogd.nl/*", "https://coconut-beta.ogd.nl/*"],
-      "css": ["styles.css"],
-      "js": ["jquery-1.6.1.min.js", "jquery.simplemodal-1.4.1.min.js", "jquery.hotkeys.js", "config.js", "prefs.js", "script.js", "ux.js","fix-forumtitles.js", "markallasread.js", "chat-extension.js", "dropdown-voor-posten.js"]
+      "css": ["css/styles.css"],
+      "js": [
+        "lib/jquery-1.6.1.min.js",
+        "lib/jquery.simplemodal-1.4.1.min.js",
+        "lib/jquery.hotkeys.js",
+        "keyboard/config.js",
+        "prefs.js",
+        "keyboard/reload-center.js",
+        "keyboard/script.js",
+        "keyboard/ux.js",
+        "forum/fix-forumtitles.js",
+        "forum/markallasread.js",
+        "chat/chat-extension.js",
+        "network/dropdown-voor-posten.js"]
     }
   ],
   "description": "Google Chrome extension for Coconut: the enterprise social network as found on http://coconutcenter.com",
   "icons": {
-     "16": "icon16.png",
-     "48": "icon48.png",
-    "128": "icon128.png"
+     "16": "img/icon16.png",
+     "48": "img/icon48.png",
+    "128": "img/icon128.png"
   },
   "name": "Coconut Chrome Extension",
   "options_page": "options.html",

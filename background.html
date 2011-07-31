@@ -1,6 +1,6 @@
 <html>
 <head>
-<script src="jquery-1.6.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-1.6.1.min.js" type="text/javascript"></script>
 <script src="prefs.js"></script>
 <script type="text/javascript" >
 function isCoconutUrl(url) {
@@ -8,8 +8,7 @@ function isCoconutUrl(url) {
   if (url.indexOf(coconut) != 0)
     return false;
 
-  return url; //.length == coconut.length || url[coconut.length] == '?' ||
-              //         url[gmail.length] == '#';
+  return url;
 }
 
 function goToCoconut() {
@@ -28,202 +27,10 @@ function goToCoconut() {
 chrome.browserAction.onClicked.addListener(function(tab) {
 	goToCoconut();
 });
-
-var notification = false;
-function getForumUnreadCount() {
-    chrome.browserAction.setBadgeText({text: "." });
-
-	function onSuccess(count) {
-		chrome.browserAction.setBadgeBackgroundColor({color:[208, 0, 24, 255]});
-		chrome.browserAction.setBadgeText({text: count != 0 ? count.toString() : ""});
-		chrome.browserAction.setIcon({path:"icon19.png"});
-		window.setTimeout(getForumUnreadCount, getRefreshInterval());
-	}
-
-	function onError() {
-		chrome.browserAction.setBadgeText({text: "?"});
-		chrome.browserAction.setBadgeBackgroundColor({color:[190, 190, 190, 230]});
-		chrome.browserAction.setIcon({path:"icon19g.png"});
-		window.setTimeout(getForumUnreadCount, getRefreshInterval());
-	}
-
-    function showNotifications(topics) {
-        // loading initial set of topics
-        if (localStorage[PREVIOUS_TOPICS_KEY] == undefined || !localStorage[PREVIOUS_TOPICS_KEY]) {
-            localStorage[PREVIOUS_TOPICS_KEY] = JSON.stringify(topics);
-            return;
-        }
-        // seed localStorage for NEW_TOPICS_KEY
-        if (localStorage[NEW_TOPICS_KEY] == undefined || !localStorage[NEW_TOPICS_KEY]) {
-            localStorage[NEW_TOPICS_KEY] = JSON.stringify([]);
-        }
-        var prev_topics = JSON.parse(localStorage[PREVIOUS_TOPICS_KEY]);
-        var new_topics = [];
-        // store all new topics
-        jQuery(topics).each(function () {
-            var found = false;
-            var rlink = this.reactionsLink;
-            jQuery.each(prev_topics, function() {
-                found = found || this.reactionsLink == rlink;
-            });
-            if (!found) {
-                new_topics.push(this);
-            }
-        });
-        // store new list of new topics in localstorage
-        new_topics = JSON.parse(localStorage[NEW_TOPICS_KEY]).concat(new_topics.reverse());
-        localStorage[NEW_TOPICS_KEY] = JSON.stringify(new_topics);
-        // create notification if necessary
-        if ((new_topics.length > 0) && (!notification) ) {
-            // show notification
-            notification = webkitNotifications.createHTMLNotification('newunreadforumthreads.html');
-            notification.onclose = function() {
-                localStorage[NEW_TOPICS_KEY] = JSON.stringify([]);
-                notification = false;
-            };
-            notification.show();
-        }
-        // store previous topics for comparison on next update
-        localStorage[PREVIOUS_TOPICS_KEY] = JSON.stringify(topics);
-    }
-
-	jQuery.ajax({
-		url: getCoconutUrl() + 'forum/categories/show_non_read.json',
-		success: function (data) {
-			if (data.topics != undefined)
-            {
-				onSuccess(data.topics.length);
-                if (getNotifications()) {
-                    showNotifications(data.topics);
-                }
-            }
-			else
-            {
-				onError();
-            }
-		},
-		error: function (data) {
-			onError();
-		}
-	});
-}
-
-function getChatStatus() {
-    function showOnlineNotifications(online) {
-        // loading initial set of online users (is done after every reload of background.html)
-        if (localStorage[NETWORK_CONNECTIONS_PREV_ONLINE_KEY] == undefined) {
-            localStorage[NETWORK_CONNECTIONS_PREV_ONLINE_KEY] = JSON.stringify(online);
-            return;
-        }
-        var prev_online = JSON.parse(localStorage[NETWORK_CONNECTIONS_PREV_ONLINE_KEY]);
-        var users = JSON.parse(localStorage[NETWORK_CONNECTIONS_KEY]);
-        // parse list for new online users
-        jQuery(online).each(function () {
-            var found = false;
-            var id = this.userId;
-            jQuery.each(prev_online, function() {
-                found = found || this.userId == id;
-            });
-            if (!found) {
-                var user = users[id];
-                if (user != undefined) {
-                    var notification = webkitNotifications.createHTMLNotification('chat/online.html?user='+id);
-                    notification.ondisplay = function() {
-                        window.setTimeout(function(n){n.cancel();},10000,notification);
-                    };
-                    window.setTimeout(function(n){n.cancel();},60000,notification);
-                    notification.show();
-                }
-            }
-        });
-        
-        // parse list for new offline users
-        jQuery(prev_online).each(function () {
-            var found = false;
-            var id = this.userId;
-            jQuery.each(online, function() {
-                found = found || this.userId == id;
-            });
-            if (!found) {
-                var user = users[id];
-                if (user != undefined) {
-                    var notification = webkitNotifications.createNotification(
-                        user.img,
-                        user.name + ' is offline',
-                        ''
-                    );
-                    notification.ondisplay = function() {
-                        window.setTimeout(function(n){n.cancel();},10000,notification);
-                    };
-                    window.setTimeout(function(n){n.cancel();},60000,notification);
-                    notification.show();
-                }
-            }
-        });
-        
-        localStorage[NETWORK_CONNECTIONS_PREV_ONLINE_KEY] = JSON.stringify(online);
-    }
-
-    function showChatMessageNotifications(messages) {
-        // loading initial set of messages (is done after every reload of background.html)
-        if (localStorage[CHAT_PREV_MESSAGES_KEY] == undefined) {
-            localStorage[CHAT_PREV_MESSAGES_KEY] = JSON.stringify(messages);
-            return;
-        }
-        var prev_messages = JSON.parse(localStorage[CHAT_PREV_MESSAGES_KEY]);
-        var users = JSON.parse(localStorage[NETWORK_CONNECTIONS_KEY]);
-        var convs = {};
-        // parse list for new messages and conversations
-        jQuery(messages).each(function () {
-            var found = false;
-            // check if the message is from a known user
-            var users = JSON.parse(localStorage[NETWORK_CONNECTIONS_KEY]);
-            var user = users[this.userId];
-            if (user != undefined) {
-                var messageId = this.messageId;
-                // check if message is new and from a known user
-                jQuery.each(prev_messages, function() {
-                    found = found || this.messageId == this.messageId;
-                });
-                if (!found) {
-                    if (convs[this.conversationId] == undefined) {
-                        convs[this.conversationId] = [this.messageId];
-                    } else {
-                        convs[this.conversationId].push(this.messageId);
-                    }
-                }
-            }
-        });
-        // show a notification for each updated conversation
-        jQuery.each(convs, function() {
-            var notification = webkitNotifications.createHTMLNotification('chat/message.html?messages='+this);
-            notification.ondisplay = function() {
-                window.setTimeout(function(n){n.cancel();},10000,notification);
-            };
-            window.setTimeout(function(n){n.cancel();},60000,notification);
-            notification.show();
-        });
-        localStorage[CHAT_PREV_MESSAGES_KEY] = JSON.stringify(messages);
-    }
-
-    jQuery.ajax({
-        url: getCoconutUrl() + 'chat/messages.json?user_ids='+localStorage[NETWORK_CONNECTIONS_UPDATE_KEY],
-        success: function (data) {
-            if (data.onlineUsers != undefined)
-            {
-                if (getNotifications()) {
-                    showOnlineNotifications(data.onlineUsers);
-                    showChatMessageNotifications(data.chatMessages);
-                }
-            }
-            window.setTimeout(getChatStatus, getRefreshInterval());
-        },
-        error: function (data) {
-            window.setTimeout(getChatStatus, getRefreshInterval());
-        }
-    });
-}
-
+</script>
+<script src="forum/forum-background.js"></script>
+<script src="chat/chat-background.js"></script>
+<script type="text/javascript" >
 function init() {
   // start forum unread loop
   getForumUnreadCount();
@@ -233,55 +40,14 @@ function init() {
   // start chat status loop
   getChatStatus();
 }
-
-var startchat = [];
+// listener for get getoption events
 chrome.extension.onRequest.addListener(
     function(request, sender, sendResponse) {
         if (request.getOption == KEYBOARD_NAVIGATION_KEY)
             sendResponse({KEYBOARD_NAVIGATION_KEY: getKeyboardNavigation()});
         if (request.getOption == RELOADCENTER_INTERVAL_KEY)
             sendResponse({RELOADCENTER_INTERVAL_KEY: getReloadCenterInterval()});
-        if (request.sendData == NETWORK_CONNECTIONS_KEY) {
-            localStorage[NETWORK_CONNECTIONS_KEY] = request.data;
-            var users = JSON.parse(request.data);
-            var ids = [];
-            for (id in users) {
-              ids.push(id);
-            }
-            // send any remaining startchat requests
-            localStorage[NETWORK_CONNECTIONS_UPDATE_KEY] = ids;
-            while(startchat.length > 0) {
-                var user = startchat.pop()
-                sendResponse({command: START_CHAT_KEY, data: JSON.stringify(user)});
-            }
-        }
-        // handle start chat requests
-        if (request.command == START_CHAT_KEY) {
-            var user = JSON.parse(request.data);
-            // find tab running Coconut
-            chrome.tabs.getAllInWindow(undefined, function(tabs) {
-                // check if we already have users waiting
-                if (startchat.length == 0) {
-                    for (var i = 0, tab; tab = tabs[i]; i++) {
-                      if (tab.url && isCoconutUrl(tab.url)) {
-                        chrome.tabs.update(tab.id, {selected: true});
-                        // send startchat request
-                        chrome.tabs.sendRequest(tab.id, {command: START_CHAT_KEY, data: JSON.stringify(user)});
-                        return;
-                      }
-                    }
-                }
-                // create new tab running coconut and store user
-                chrome.tabs.create({url: getCoconutUrl()});
-                startchat.push(user);
-            });
-        }
-        // handle show conversation requests
-        if (request.command == CHAT_SHOW_CONVERSATION_KEY) {
-            goToCoconut();
-        }
   });
-
 </script>
 </head>
 <body onload="init()">
