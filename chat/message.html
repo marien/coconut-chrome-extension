@@ -86,7 +86,7 @@
         }
         
         function showConversation(event) {
-            chrome.extension.sendRequest({command: CHAT_SHOW_CONVERSATION_KEY, data: JSON.stringify(event.data)});
+            chrome.extension.sendRequest({command: CHAT_SHOW_CONVERSATION_MSG, data: JSON.stringify(event.data)});
             close();
         }
     </script>

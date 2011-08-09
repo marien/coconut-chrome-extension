@@ -17,7 +17,7 @@ jQuery(document).ready(function(){
 chrome.extension.onRequest.addListener(
     function(request, sender, sendResponse) {
         // handle start chat requests
-        if (request.command == START_CHAT_KEY) {
+        if (request.command == CHAT_START_MSG) {
             var user = JSON.parse(request.data);
             startChat(user);
         }

@@ -37,8 +37,12 @@ function getChatStatus() {
             if (!found) {
                 var user = users[id];
                 if (user != undefined) {
+                    var url = user.img;
+                    if (url.indexOf('http') != 0) {
+                        url = getCoconutUrl() + url;
+                    }
                     var notification = webkitNotifications.createNotification(
-                        user.img,
+                        url,
                         user.name + ' is offline',
                         ''
                     );
@@ -128,11 +132,11 @@ chrome.extension.onRequest.addListener(
             localStorage[NETWORK_CONNECTIONS_UPDATE_KEY] = ids;
             while(startchat.length > 0) {
                 var user = startchat.pop()
-                sendResponse({command: START_CHAT_KEY, data: JSON.stringify(user)});
+                sendResponse({command: CHAT_START_MSG, data: JSON.stringify(user)});
             }
         }
         // handle start chat requests
-        if (request.command == START_CHAT_KEY) {
+        if (request.command == CHAT_START_MSG) {
             var user = JSON.parse(request.data);
             // find tab running Coconut
             chrome.tabs.getAllInWindow(undefined, function(tabs) {
@@ -142,7 +146,7 @@ chrome.extension.onRequest.addListener(
                       if (tab.url && isCoconutUrl(tab.url)) {
                         chrome.tabs.update(tab.id, {selected: true});
                         // send startchat request
-                        chrome.tabs.sendRequest(tab.id, {command: START_CHAT_KEY, data: JSON.stringify(user)});
+                        chrome.tabs.sendRequest(tab.id, {command: CHAT_START_MSG, data: JSON.stringify(user)});
                         return;
                       }
                     }
@@ -153,7 +157,7 @@ chrome.extension.onRequest.addListener(
             });
         }
         // handle show conversation requests
-        if (request.command == CHAT_SHOW_CONVERSATION_KEY) {
+        if (request.command == CHAT_SHOW_CONVERSATION_MSG) {
             goToCoconut();
         }
 });

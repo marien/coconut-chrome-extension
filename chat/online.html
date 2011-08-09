@@ -45,7 +45,7 @@
         float: left;
     }
     .userMessage {
-        color: #3E3E40;
+        color: #000;
         font-weight: bold;
     }
     </style>
@@ -72,7 +72,7 @@
         }
         
         function startChat(event) {
-            chrome.extension.sendRequest({command: START_CHAT_KEY, data: JSON.stringify(event.data)});
+            chrome.extension.sendRequest({command: CHAT_START_MSG, data: JSON.stringify(event.data)});
             close();
         }
     </script>
