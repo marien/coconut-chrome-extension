@@ -13,7 +13,7 @@
         "lib/jquery.simplemodal-1.4.1.min.js",
         "lib/jquery.hotkeys.js",
         "keyboard/config.js",
-        "prefs.js",
+        "options.js",
         "keyboard/reload-center.js",
         "keyboard/script.js",
         "keyboard/ux.js",
