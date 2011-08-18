@@ -41,6 +41,12 @@
   var UPDATE_INTERVAL_MINUTES = [1, 5, 10, 15, 30];
   var UPDATE_INTERVAL_SECONDS = [1, 5, 10, 15, 30];
 
+  function saveCheck(formNode, option, id) {
+    var optCheckNode = formNode[id+'-check'];
+    var opt = optCheckNode.checked;
+    setBoolOption(option, opt);
+  }
+
   // Saves options to localStorage.
   function saveOptions() {
     var formNode = document.getElementById('options-form');
@@ -52,6 +58,11 @@
     var notificationsCheckNode = formNode['notifications-check'];
     var notificationsCheck = notificationsCheckNode.checked;
     setNotifications(notificationsCheck);
+
+    saveCheck(formNode, FORUM_NEW_TOPIC_NOTIFICATION_KEY, 'forum-new-topic-notification');
+    saveCheck(formNode, NETWORK_CONNECTIONS_ONLINE_NOTIFICATION_KEY, 'network-connections-online-notification');
+    saveCheck(formNode, NETWORK_CONNECTIONS_OFFLINE_NOTIFICATION_KEY, 'network-connections-offline-notification');
+    saveCheck(formNode, CHAT_NEW_MESSAGE_NOTIFICATION_KEY, 'chat-new-message-notification');
 
     var refreshIntervalNode = formNode['refresh-interval'];
     var refreshInterval =
@@ -78,16 +89,27 @@
     }, 750);
   }
 
+  function restoreCheck(formNode, optname, optid) {
+    var opt = getBoolOption(optname);
+    var optCheckNode = formNode[optid+'-check'];
+    optCheckNode.checked = opt;
+  }
+
   function restoreOptions() {
     var formNode = document.getElementById('options-form');
 
     var keyboardNavigation = getKeyboardNavigation();
     var keyboardNavigationCheckNode = formNode['keyboard-navigation-check'];
     keyboardNavigationCheckNode.checked = keyboardNavigation;
-    
+
     var notifications = getNotifications();
     var notificationsCheckNode = formNode['notifications-check'];
     notificationsCheckNode.checked = notifications;
+
+    restoreCheck(formNode, FORUM_NEW_TOPIC_NOTIFICATION_KEY, 'forum-new-topic-notification');
+    restoreCheck(formNode, NETWORK_CONNECTIONS_ONLINE_NOTIFICATION_KEY, 'network-connections-online-notification');
+    restoreCheck(formNode, NETWORK_CONNECTIONS_OFFLINE_NOTIFICATION_KEY, 'network-connections-offline-notification');
+    restoreCheck(formNode, CHAT_NEW_MESSAGE_NOTIFICATION_KEY, 'chat-new-message-notification');
 
     var refreshInterval = getRefreshInterval();
     var refreshIntervalNode = formNode['refresh-interval'];
@@ -164,6 +186,10 @@
     document.getElementById('options-header').innerHTML = 'Options for Coconut Chrome Extension'; // chrome.i18n.getMessage('title');
     document.getElementById('show-keyboard-navigation').innerHTML = 'Keyboard navigation enabled'; // chrome.i18n.getMessage('keyboardNavigation');
     document.getElementById('show-notifications').innerHTML = 'Notifications enabled'; // chrome.i18n.getMessage('showModule');
+    document.getElementById('show-forum-new-topic-notification').innerHTML = 'Show new forum topic notification enabled';
+    document.getElementById('show-network-connections-online-notification').innerHTML = 'Show online network connections notification enabled';
+    document.getElementById('show-network-connections-offline-notification').innerHTML = 'Show offline network connections notification enabled';
+    document.getElementById('show-chat-new-message-notification').innerHTML = 'Show new chat message notification enabled';
     document.getElementById('interval-text').innerHTML = 'Interval for update'; // chrome.i18n.getMessage('intervalText');
     document.getElementById('reloadcenter-text').innerHTML = 'Interval for reload center'; // chrome.i18n.getMessage('reloadcenterText');
     document.getElementById('closenotification-text').innerHTML = 'Interval for close desktop notification'; // chrome.i18n.getMessage('closenotificationText');
@@ -199,6 +225,38 @@
     <td>
       <input type="checkbox" name="notifications-check">
       <label id="show-notifications">
+      </label>
+    </td>
+  </tr>
+  <tr>
+    <td class="label" id="forum-new-topic-notification"></td>
+    <td>
+      <input type="checkbox" name="forum-new-topic-notification-check">
+      <label id="show-forum-new-topic-notification">
+      </label>
+    </td>
+  </tr>
+  <tr>
+    <td class="label" id="network-connections-online-notification"></td>
+    <td>
+      <input type="checkbox" name="network-connections-online-notification-check">
+      <label id="show-network-connections-online-notification">
+      </label>
+    </td>
+  </tr>
+  <tr>
+    <td class="label" id="network-connections-offline-notification"></td>
+    <td>
+      <input type="checkbox" name="network-connections-offline-notification-check">
+      <label id="show-network-connections-offline-notification">
+      </label>
+    </td>
+  </tr>
+  <tr>
+    <td class="label" id="chat-new-message-notification"></td>
+    <td>
+      <input type="checkbox" name="chat-new-message-notification-check">
+      <label id="show-chat-new-message-notification">
       </label>
     </td>
   </tr>

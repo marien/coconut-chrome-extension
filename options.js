@@ -5,16 +5,30 @@ var RELOADCENTER_INTERVAL_KEY = 'reloadcenter-interval';
 var CLOSENOTIFICATION_INTERVAL_KEY = 'closenotification-interval';
 var PREVIOUS_TOPICS_KEY = 'prev_topics';
 var NEW_TOPICS_KEY = 'new_topics';
+var FORUM_NEW_TOPIC_NOTIFICATION_KEY = 'forum_new_topic_notification_key';
 var NETWORK_CONNECTIONS_KEY = 'network_connections';
 var NETWORK_CONNECTIONS_UPDATE_KEY = 'network_connections_update';
 var NETWORK_CONNECTIONS_PREV_ONLINE_KEY = 'network_connections_prev_online';
+var NETWORK_CONNECTIONS_ONLINE_NOTIFICATION_KEY = 'network_connections_online_notification';
+var NETWORK_CONNECTIONS_OFFLINE_NOTIFICATION_KEY = 'network_connections_offline_notification';
 var CHAT_START_MSG = 'chat_start';
 var CHAT_PREV_MESSAGES_KEY = 'chat_prev_messages';
 var CHAT_SHOW_CONVERSATION_MSG = 'chat_show_conversation';
+var CHAT_NEW_MESSAGE_NOTIFICATION_KEY = 'chat_new_message_notification';
 
 function getCoconutUrl() {
   var url = "https://coconut.ogd.nl/";
   return url;
+}
+
+function getBoolOption(option) {
+  if (!localStorage[option])
+    return true;
+  return localStorage[option] == "true";
+}
+
+function setBoolOption(option, value) {
+  localStorage[option] = value;
 }
 
 function getKeyboardNavigation() {

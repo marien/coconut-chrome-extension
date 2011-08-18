@@ -26,31 +26,34 @@ function getForumUnreadCount() {
         if (localStorage[NEW_TOPICS_KEY] == undefined || !localStorage[NEW_TOPICS_KEY]) {
             localStorage[NEW_TOPICS_KEY] = JSON.stringify([]);
         }
-        var prev_topics = JSON.parse(localStorage[PREVIOUS_TOPICS_KEY]);
-        var new_topics = [];
-        // store all new topics
-        jQuery(topics).each(function () {
-            var found = false;
-            var rlink = this.reactionsLink;
-            jQuery.each(prev_topics, function() {
-                found = found || this.reactionsLink == rlink;
+        // check options
+        if ((getNotifications() && getBoolOption(FORUM_NEW_TOPIC_NOTIFICATION_KEY)) {
+            var prev_topics = JSON.parse(localStorage[PREVIOUS_TOPICS_KEY]);
+            var new_topics = [];
+            // store all new topics
+            jQuery(topics).each(function () {
+                var found = false;
+                var rlink = this.reactionsLink;
+                jQuery.each(prev_topics, function() {
+                    found = found || this.reactionsLink == rlink;
+                });
+                if (!found) {
+                    new_topics.push(this);
+                }
             });
-            if (!found) {
-                new_topics.push(this);
+            // store new list of new topics in localstorage
+            new_topics = JSON.parse(localStorage[NEW_TOPICS_KEY]).concat(new_topics.reverse());
+            localStorage[NEW_TOPICS_KEY] = JSON.stringify(new_topics);
+            // create notification if necessary
+            if ((new_topics.length > 0) && (!notification) ) {
+                // show notification
+                notification = webkitNotifications.createHTMLNotification('forum/newunreadforumthreads.html');
+                notification.onclose = function() {
+                    localStorage[NEW_TOPICS_KEY] = JSON.stringify([]);
+                    notification = false;
+                };
+                notification.show();
             }
-        });
-        // store new list of new topics in localstorage
-        new_topics = JSON.parse(localStorage[NEW_TOPICS_KEY]).concat(new_topics.reverse());
-        localStorage[NEW_TOPICS_KEY] = JSON.stringify(new_topics);
-        // create notification if necessary
-        if ((new_topics.length > 0) && (!notification) ) {
-            // show notification
-            notification = webkitNotifications.createHTMLNotification('forum/newunreadforumthreads.html');
-            notification.onclose = function() {
-                localStorage[NEW_TOPICS_KEY] = JSON.stringify([]);
-                notification = false;
-            };
-            notification.show();
         }
         // store previous topics for comparison on next update
         localStorage[PREVIOUS_TOPICS_KEY] = JSON.stringify(topics);
@@ -62,9 +65,7 @@ function getForumUnreadCount() {
 			if (data.topics != undefined)
             {
 				onSuccess(data.topics.length);
-                if (getNotifications()) {
-                    showNotifications(data.topics);
-                }
+                showNotifications(data.topics);
             }
 			else
             {

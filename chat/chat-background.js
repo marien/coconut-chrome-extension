@@ -7,54 +7,58 @@ function getChatStatus() {
         }
         var prev_online = JSON.parse(localStorage[NETWORK_CONNECTIONS_PREV_ONLINE_KEY]);
         var users = JSON.parse(localStorage[NETWORK_CONNECTIONS_KEY]);
-        // parse list for new online users
-        jQuery(online).each(function () {
-            var found = false;
-            var id = this.userId;
-            jQuery.each(prev_online, function() {
-                found = found || this.userId == id;
-            });
-            if (!found) {
-                var user = users[id];
-                if (user != undefined) {
-                    var notification = webkitNotifications.createHTMLNotification('chat/online.html?user='+id);
-                    notification.ondisplay = function() {
-                        window.setTimeout(function(n){n.cancel();},10000,notification);
-                    };
-                    window.setTimeout(function(n){n.cancel();},60000,notification);
-                    notification.show();
-                }
-            }
-        });
-        
-        // parse list for new offline users
-        jQuery(prev_online).each(function () {
-            var found = false;
-            var id = this.userId;
-            jQuery.each(online, function() {
-                found = found || this.userId == id;
-            });
-            if (!found) {
-                var user = users[id];
-                if (user != undefined) {
-                    var url = user.img;
-                    if (url.indexOf('http') != 0) {
-                        url = getCoconutUrl() + url;
+        // check options
+        if (getNotifications() && getBoolOption(NETWORK_CONNECTIONS_ONLINE_NOTIFICATION_KEY)) {
+            // parse list for new online users
+            jQuery(online).each(function () {
+                var found = false;
+                var id = this.userId;
+                jQuery.each(prev_online, function() {
+                    found = found || this.userId == id;
+                });
+                if (!found) {
+                    var user = users[id];
+                    if (user != undefined) {
+                        var notification = webkitNotifications.createHTMLNotification('chat/online.html?user='+id);
+                        notification.ondisplay = function() {
+                            window.setTimeout(function(n){n.cancel();},10000,notification);
+                        };
+                        window.setTimeout(function(n){n.cancel();},60000,notification);
+                        notification.show();
                     }
-                    var notification = webkitNotifications.createNotification(
-                        url,
-                        user.name + ' is offline',
-                        ''
-                    );
-                    notification.ondisplay = function() {
-                        window.setTimeout(function(n){n.cancel();},10000,notification);
-                    };
-                    window.setTimeout(function(n){n.cancel();},60000,notification);
-                    notification.show();
                 }
-            }
-        });
-        
+            });
+        }
+        // check options
+        if (getNotifications() && getBoolOption(NETWORK_CONNECTIONS_OFFLINE_NOTIFICATION_KEY)) {
+            // parse list for new offline users
+            jQuery(prev_online).each(function () {
+                var found = false;
+                var id = this.userId;
+                jQuery.each(online, function() {
+                    found = found || this.userId == id;
+                });
+                if (!found) {
+                    var user = users[id];
+                    if (user != undefined) {
+                        var url = user.img;
+                        if (url.indexOf('http') != 0) {
+                            url = getCoconutUrl() + url;
+                        }
+                        var notification = webkitNotifications.createNotification(
+                            url,
+                            user.name + ' is offline',
+                            ''
+                        );
+                        notification.ondisplay = function() {
+                            window.setTimeout(function(n){n.cancel();},10000,notification);
+                        };
+                        window.setTimeout(function(n){n.cancel();},60000,notification);
+                        notification.show();
+                    }
+                }
+            });
+        }
         localStorage[NETWORK_CONNECTIONS_PREV_ONLINE_KEY] = JSON.stringify(online);
     }
 
@@ -64,39 +68,42 @@ function getChatStatus() {
             localStorage[CHAT_PREV_MESSAGES_KEY] = JSON.stringify(messages);
             return;
         }
-        var prev_messages = JSON.parse(localStorage[CHAT_PREV_MESSAGES_KEY]);
-        var users = JSON.parse(localStorage[NETWORK_CONNECTIONS_KEY]);
-        var convs = {};
-        // parse list for new messages and conversations
-        jQuery(messages).each(function () {
-            var found = false;
-            // check if the message is from a known user
+        // check options
+        if (getNotifications() && getBoolOption(CHAT_NEW_MESSAGE_NOTIFICATION_KEY)) {
+            var prev_messages = JSON.parse(localStorage[CHAT_PREV_MESSAGES_KEY]);
             var users = JSON.parse(localStorage[NETWORK_CONNECTIONS_KEY]);
-            var user = users[this.userId];
-            if (user != undefined) {
-                var messageId = this.messageId;
-                // check if message is new and from a known user
-                jQuery.each(prev_messages, function() {
-                    found = found || this.messageId == this.messageId;
-                });
-                if (!found) {
-                    if (convs[this.conversationId] == undefined) {
-                        convs[this.conversationId] = [this.messageId];
-                    } else {
-                        convs[this.conversationId].push(this.messageId);
+            var convs = {};
+            // parse list for new messages and conversations
+            jQuery(messages).each(function () {
+                var found = false;
+                // check if the message is from a known user
+                var users = JSON.parse(localStorage[NETWORK_CONNECTIONS_KEY]);
+                var user = users[this.userId];
+                if (user != undefined) {
+                    var messageId = this.messageId;
+                    // check if message is new and from a known user
+                    jQuery.each(prev_messages, function() {
+                        found = found || this.messageId == this.messageId;
+                    });
+                    if (!found) {
+                        if (convs[this.conversationId] == undefined) {
+                            convs[this.conversationId] = [this.messageId];
+                        } else {
+                            convs[this.conversationId].push(this.messageId);
+                        }
                     }
                 }
-            }
-        });
-        // show a notification for each updated conversation
-        jQuery.each(convs, function() {
-            var notification = webkitNotifications.createHTMLNotification('chat/message.html?messages='+this);
-            notification.ondisplay = function() {
-                window.setTimeout(function(n){n.cancel();},10000,notification);
-            };
-            window.setTimeout(function(n){n.cancel();},60000,notification);
-            notification.show();
-        });
+            });
+            // show a notification for each updated conversation
+            jQuery.each(convs, function() {
+                var notification = webkitNotifications.createHTMLNotification('chat/message.html?messages='+this);
+                notification.ondisplay = function() {
+                    window.setTimeout(function(n){n.cancel();},10000,notification);
+                };
+                window.setTimeout(function(n){n.cancel();},60000,notification);
+                notification.show();
+            });
+        }
         localStorage[CHAT_PREV_MESSAGES_KEY] = JSON.stringify(messages);
     }
 
@@ -105,10 +112,8 @@ function getChatStatus() {
         success: function (data) {
             if (data.onlineUsers != undefined)
             {
-                if (getNotifications()) {
-                    showOnlineNotifications(data.onlineUsers);
-                    showChatMessageNotifications(data.chatMessages);
-                }
+                showOnlineNotifications(data.onlineUsers);
+                showChatMessageNotifications(data.chatMessages);
             }
             window.setTimeout(getChatStatus, getRefreshInterval());
         },
