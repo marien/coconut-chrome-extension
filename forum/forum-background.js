@@ -27,7 +27,7 @@ function getForumUnreadCount() {
             localStorage[NEW_TOPICS_KEY] = JSON.stringify([]);
         }
         // check options
-        if ((getNotifications() && getBoolOption(FORUM_NEW_TOPIC_NOTIFICATION_KEY)) {
+        if (getNotifications() && getBoolOption(FORUM_NEW_TOPIC_NOTIFICATION_KEY)) {
             var prev_topics = JSON.parse(localStorage[PREVIOUS_TOPICS_KEY]);
             var new_topics = [];
             // store all new topics
