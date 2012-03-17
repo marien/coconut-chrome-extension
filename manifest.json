@@ -9,8 +9,8 @@
       "matches": ["https://coconut.ogd.nl/*", "https://coconut-beta.ogd.nl/*"],
       "css": ["css/styles.css"],
       "js": [
-        "lib/jquery-1.6.1.min.js",
-        "lib/jquery.simplemodal-1.4.1.min.js",
+        "lib/jquery-1.7.1.min.js",
+        "lib/jquery.simplemodal-1.4.2.min.js",
         "lib/jquery.hotkeys.js",
         "keyboard/config.js",
         "options.js",

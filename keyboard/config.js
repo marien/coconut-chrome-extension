@@ -1,14 +1,14 @@
 var keys = [
 // menu links
-{ key: 'g;h', link: '.topBar a[title=]:contains(Coconut center)', help_message: 'Ga naar Coconut Center' },
-{ key: 'g;n', link: '.topBar a[title=]:contains(nieuws & info)', help_message: 'Ga naar Nieuws & Info' },
-{ key: 'g;f', link: '.topBar a[title=]:contains(interne forums)', help_message: 'Ga naar Forum' },
-{ key: 'g;r', link: '.topBar a[title=]:contains(groepen)', help_message: 'Ga naar Groepen' },
-{ key: 'g;p', link: '.topBar a[title=]:contains(profielen)', help_message: 'Ga naar Profielen' },
-{ key: 'g;o', link: '.topBar a[title=]:contains(opleidingen)', help_message: 'Ga naar Opleidingen' },
-{ key: 'g;w', link: '.topBar a[title=]:contains(wiki)', help_message: 'Ga naar Wiki' },
-{ key: 'g;u', link: '.topBar a[title=]:contains(LAS Urenregistratie)', help_message: 'Ga naar LAS' },
-{ key: 'g;z', link: '.topBar a[title=]:contains(Zarafa)', help_message: 'Ga naar Webmail' },
+{ key: 'g;h', link: '.topBar a:contains(Coconut center)', help_message: 'Ga naar Coconut Center' },
+{ key: 'g;n', link: '.topBar a:contains(nieuws & info)', help_message: 'Ga naar Nieuws & Info' },
+{ key: 'g;f', link: '.topBar a:contains(interne forums)', help_message: 'Ga naar Forum' },
+{ key: 'g;r', link: '.topBar a:contains(groepen)', help_message: 'Ga naar Groepen' },
+{ key: 'g;p', link: '.topBar a:contains(profielen)', help_message: 'Ga naar Profielen' },
+{ key: 'g;o', link: '.topBar a:contains(opleidingen)', help_message: 'Ga naar Opleidingen' },
+{ key: 'g;w', link: '.topBar a:contains(wiki)', help_message: 'Ga naar Wiki' },
+{ key: 'g;u', link: '.topBar a:contains(LAS Urenregistratie)', help_message: 'Ga naar LAS' },
+{ key: 'g;z', link: '.topBar a:contains(Zarafa)', help_message: 'Ga naar Webmail' },
 
 // content links
 { key: 'c', link: '.commonContentActionButton > a', help_message: 'Schrijf een nieuw bericht' }, // c + a: content action
