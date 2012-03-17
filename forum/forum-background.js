@@ -1,10 +1,11 @@
 var notification = false;
 function getForumUnreadCount() {
+	var limit = 99;
     chrome.browserAction.setBadgeText({text: "." });
 
 	function onSuccess(count) {
 		chrome.browserAction.setBadgeBackgroundColor({color:[208, 0, 24, 255]});
-		chrome.browserAction.setBadgeText({text: count != 0 ? count.toString() : ""});
+		chrome.browserAction.setBadgeText({text: count != 0 ? (count < limit ? count.toString() : limit + "+") : ""});
 		chrome.browserAction.setIcon({path:"img/icon19.png"});
 		window.setTimeout(getForumUnreadCount, getRefreshInterval());
 	}
@@ -60,7 +61,7 @@ function getForumUnreadCount() {
     }
 
 	jQuery.ajax({
-		url: getCoconutUrl() + 'forum/categories/show_non_read.json',
+		url: getCoconutUrl() + 'forum/categories/show_non_read.json?limit='+limit,
 		success: function (data) {
 			if (data.topics != undefined)
             {
