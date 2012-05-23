@@ -19,8 +19,8 @@
         "keyboard/ux.js",
         "forum/fix-forumtitles.js",
         "forum/markallasread.js",
-        "chat/chat-extension.js",
-        "network/dropdown-voor-posten.js"]
+        "chat/chat-extension.js"
+        ]
     }
   ],
   "description": "Google Chrome extension for Coconut: the enterprise social network as found on http://coconutcenter.com",
@@ -36,5 +36,5 @@
     "tabs",
     "https://coconut.ogd.nl/*"
   ],
-  "version": "0.4.1"
+  "version": "0.4.2"
 }
