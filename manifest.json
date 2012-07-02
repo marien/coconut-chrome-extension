@@ -17,7 +17,6 @@
         "keyboard/reload-center.js",
         "keyboard/script.js",
         "keyboard/ux.js",
-        "forum/fix-forumtitles.js",
         "forum/markallasread.js",
         "chat/chat-extension.js"
         ]
