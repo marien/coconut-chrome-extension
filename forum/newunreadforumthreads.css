@@ -1,0 +1,108 @@
+body {
+    font-family: Arial;
+    font-size: 13px;
+    line-height: 20px;
+}
+a {
+    text-decoration: none;
+    outline: none;
+    color: #666;
+}
+div {
+    display: block;
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+    margin: 0;
+}
+fieldset, img {
+    border: 0;
+}
+.container {
+    min-height: 40px;
+    position: relative;
+}
+.title {
+    height: 20px;
+    font-weight: bold;
+    overflow: hidden;
+    padding: 0px 3px;
+    background-color: #038206;
+    color: white;
+}
+.title:hover {
+    background-color: #EEE;
+    color: #038206;
+}
+.reaction {
+    height: 80px;
+    overflow: hidden;
+    padding: 0px 3px;
+    cursor: pointer;
+}
+.reaction:hover {
+    background-color: #EEE;
+}
+.reactionImage img {
+    height: 30px;
+    width: 30px;
+    margin: 5px 5px 5px 0px;
+    float: left;
+}
+.reactionContent {
+    color: #3E3E40;
+}
+.topicDate {
+    font-size: 10px;
+    display: block;
+    color: #999;
+    float: right;
+}
+.paginationContainer {
+    position: relative;
+    background-color: white;
+    height: 20px;
+}
+.paginationContainer a {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    display: block;
+    cursor: auto;
+}
+.paginationContainer .paginationContainerNumber {
+    display: block;
+    color: #038206;
+    font-weight: bold;
+    font-size: 11px;
+    text-align: center;
+}
+.paginationContainer a img {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-image: url(../img/icon_sprite.png);
+    background-repeat: no-repeat;
+    background-color: #038206;
+}
+.paginationContainer .previous {
+    left: 2px;
+}
+.paginationContainer .previous img {
+    background-position: -22px -62px;
+}
+.paginationContainer .previous:hover img {
+    background-position: -72px -62px;
+}
+.paginationContainer .next {
+    right: 2px;
+}
+.paginationContainer .next img {
+    background-position: -22px -22px;
+}
+.paginationContainer .next:hover img {
+    background-position: -72px -22px;
+}
+.break {
+    clear: both;
+}

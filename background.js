@@ -1,8 +1,3 @@
-<html>
-<head>
-<script src="lib/jquery-1.7.1.min.js" type="text/javascript"></script>
-<script src="options.js"></script>
-<script type="text/javascript" >
 function isCoconutUrl(url) {
   var coconut = getCoconutUrl();
   if (url.indexOf(coconut) != 0)
@@ -27,10 +22,7 @@ function goToCoconut() {
 chrome.browserAction.onClicked.addListener(function(tab) {
 	goToCoconut();
 });
-</script>
-<script src="forum/forum-background.js"></script>
-<script src="chat/chat-background.js"></script>
-<script type="text/javascript" >
+
 function init() {
   // start forum unread loop
   getForumUnreadCount();
@@ -40,6 +32,7 @@ function init() {
   // start chat status loop
   getChatStatus();
 }
+
 // listener for get getoption events
 chrome.extension.onRequest.addListener(
     function(request, sender, sendResponse) {
@@ -47,9 +40,8 @@ chrome.extension.onRequest.addListener(
             sendResponse({KEYBOARD_NAVIGATION_KEY: getKeyboardNavigation()});
         if (request.getOption == RELOADCENTER_INTERVAL_KEY)
             sendResponse({RELOADCENTER_INTERVAL_KEY: getReloadCenterInterval()});
-  });
-</script>
-</head>
-<body onload="init()">
-</body>
-</html>
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  init();
+});

@@ -1,0 +1,45 @@
+body {
+    font-family: Arial;
+    font-size: 13px;
+    line-height: 20px;
+}
+a {
+    text-decoration: none;
+    outline: none;
+    color: #666;
+}
+div {
+    display: block;
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+    margin: 0;
+}
+fieldset, img {
+    border: 0;
+}
+.break {
+    clear: both;
+}
+.container {
+    min-height: 30px;
+    position: relative;
+}
+.conversation {
+    min-height: 40px;
+    overflow: hidden;
+    padding: 0px 3px;
+    cursor: pointer;
+}
+.user:hover {
+    background-color: #EEE;
+}
+.userImage img {
+    height: 30px;
+    width: 30px;
+    margin: 5px 5px 5px 0px;
+    float: left;
+}
+.userMessage {
+    color: #3E3E40;
+    font-weight: bold;
+}
